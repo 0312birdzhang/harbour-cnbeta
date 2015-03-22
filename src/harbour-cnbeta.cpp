@@ -31,21 +31,31 @@
 #ifdef QT_QML_DEBUG
 #include <QtQuick>
 #endif
-
+#include <QQuickView>
 #include <sailfishapp.h>
-
+#include "newslistretriever.h"
+#include "articleretriever.h"
+#include "commentretriever.h"
+#include "topicretriever.h"
+#include "utility.h"
 
 int main(int argc, char *argv[])
 {
-    // SailfishApp::main() will display "qml/template.qml", if you need more
-    // control over initialization, you can use:
-    //
-    //   - SailfishApp::application(int, char *[]) to get the QGuiApplication *
-    //   - SailfishApp::createView() to get a new QQuickView * instance
-    //   - SailfishApp::pathTo(QString) to get a QUrl to a resource file
-    //
-    // To display the view, call "show()" (will show fullscreen on device).
 
-    return SailfishApp::main(argc, argv);
+    QScopedPointer<QApplication> app(SailfishApp::application(argc, argv));
+    QScopedPointer<QQuickView> viewer(SailfishApp::createView());
+
+    qmlRegisterType<NewsListRetriever>("com.yeatse.cnbeta", 1, 0, "NewsList");
+    qmlRegisterType<ArticleRetriever>("com.yeatse.cnbeta", 1, 0, "Article");
+    qmlRegisterType<CommentRetriever>("com.yeatse.cnbeta", 1, 0, "Comment");
+    qmlRegisterType<TopicRetriever>("com.yeatse.cnbeta", 1, 0, "TopicList");
+
+    app->setApplicationName("cnBeta");
+    app->setOrganizationName("Yeatse");
+    app->setApplicationVersion(VER);
+    viewer->rootContext()->setContextProperty("utility", Utility::Instance());
+    viewer->setSource(SailfishApp::pathTo("qml/harbour-cnbeta.qml"));
+    viewer->show();
+    return app->exec();
 }
 

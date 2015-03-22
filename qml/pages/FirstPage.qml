@@ -37,131 +37,147 @@ Page{
     property int operationType: PageStackAction.Animated
     property int fromArticleID
     property bool display:false
-    property int setting:0
+    property int setting
     Component.onCompleted: {
         Settings.initialize();
-        setting = Settings.getSetting();
+        Settings.getSetting();
+        JS.loadNews();
     }
     Progress{
-     id:progress
+        id:progress
+        parent:showNews
+        anchors.centerIn: parent
     }
-    SilicaFlickable {
-        anchors.fill: parent
-        PageHeader {
+
+    ListModel {
+        id:newlistModel
+    }
+
+
+    SilicaListView {
+        id:view
+        header: PageHeader {
             id:header
             title: qsTr("Cnbeta")
         }
-    PullDownMenu{
-        MenuItem{
-            text:"关于"
-            onClicked:   pageStack.push(Qt.resolvedUrl("About.qml"));
-        }
-        MenuItem{
-            text:(setting ===0?"无图模式":"有图模式" )
-            onClicked :{
-                Settings.setPic(setting);
+        anchors.fill: parent
+        PullDownMenu{
+            MenuItem{
+                text:"关于"
+                onClicked:   pageStack.push(Qt.resolvedUrl("About.qml"));
             }
-        }
-    }
-        Item {
-            id:root
-            y:100
-            width: 540
-            height: 960-header.height
-
-            Component.onCompleted: {
-                JS.loadNews();
-            }
-
-
-            ListModel {
-                id:newlistModel
-            }
-
-
-            SilicaListView {
-                id:view
-                PushUpMenu{
-                    id:pushUp
-                    MenuItem{
-                        id:loadMoreID
-                        visible:display
-                        text:"加载更多..."
-                        onClicked: JS.loadMore(fromArticleID);
-                    }
-                    MenuItem{
-                        text:"返回顶部"
-                        onClicked: view.scrollToTop()
-                    }
-
+            MenuItem{
+                text:(setting ===0?"无图模式":"有图模式" )
+                onClicked :{
+                    Settings.setPic(setting);
                 }
-
-                clip: true
-                anchors.fill:parent
-                model : newlistModel
-                contentHeight: childrenRect.height
-                delegate:
-                    BackgroundItem{
-                    id:showlist
-                    height:titleid.height+timeid.height+summaryid.height
-                    width: parent.width-20
-                    Label{
-                        id:titleid
-                        text:"<br/>"+title
-                        font.pixelSize: Theme.fontSizeMedium
-                        truncationMode: TruncationMode.Fade
-                        wrapMode: Text.WordWrap
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            //rightMargin: Theme.paddingSmall
-                        }
-                    }
-                    Label{
-                        id:timeid
-                        text:"<font size='1' >发布时间 : "+date+"</font>"
-                        font.pixelSize: Theme.fontSizeExtraSmall * 4 / 3
-                        font.italic: true
-                        horizontalAlignment: Text.AlignRight
-                        anchors {
-                            top:titleid.bottom
-                            left: parent.left
-                        }
-                    }
-                    Label{
-                        id:summaryid
-                        text:"<font size='1' >      "+intro+"</font><br/>"
-                        font.pixelSize: Theme.fontSizeExtraSmall*4/3
-                        wrapMode: Text.WordWrap
-                        //maximumLineCount: 4
-                        //truncationMode: TruncationMode.Fade
-                        verticalAlignment : Text.AlignBottom
-                        anchors {
-                            top: timeid.bottom
-                            left: parent.left
-                            right: parent.right
-                            //                        leftMargin: 10
-                            //                        rightMargin: 10
-                        }
-                    }
-
-                    Separator {
-                        visible:(index > 0?true:false)
-                        width:parent.width;
-                        color: Theme.highlightColor
-                    }
-                    onClicked: {
-                        pageStack.push(Qt.resolvedUrl("NewsDetail.qml"),{
-                                           "article_id":article_id,
-                                           "setting":setting
-                                       });
-                    }
-                }
-
-
-                VerticalScrollDecorator {}
-
+            }
+            MenuItem{
+                text:"刷新"
+                onClicked: JS.loadNews();
             }
         }
+        PushUpMenu{
+            id:pushUp
+//            MenuItem{
+//                id:loadMoreID
+//                visible:display
+//                text:"加载更多..."
+//                onClicked: JS.loadMore(fromArticleID);
+//            }
+            MenuItem{
+                text:"返回顶部"
+                onClicked: view.scrollToTop()
+            }
+
+        }
+
+        clip: true
+        model : newlistModel
+        //contentHeight: childrenRect.height
+        delegate:
+            BackgroundItem{
+            id:showlist
+            height:titleid.height+timeid.height+summaryid.height
+            width: parent.width
+            Label{
+                id:titleid
+                text:"<br/>"+title
+                font.pixelSize: Theme.fontSizeMedium
+                truncationMode: TruncationMode.Fade
+                wrapMode: Text.WordWrap
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.paddingSmall
+                }
+            }
+            Label{
+                id:timeid
+                text:"<font size='1' >发布时间 : "+date+"</font>"
+                font.pixelSize: Theme.fontSizeExtraSmall * 4 / 3
+                font.italic: true
+                //horizontalAlignment: Text.AlignRight
+                anchors {
+                    top:titleid.bottom
+                    left: parent.left
+                    leftMargin: Theme.paddingSmall
+                }
+            }
+            Label{
+                id:summaryid
+                text:"<font size='1' >"+intro+"</font><br/>"
+                font.pixelSize: Theme.fontSizeExtraSmall*4/3
+                wrapMode: Text.WordWrap
+                anchors {
+                    top: timeid.bottom
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.paddingSmall
+                    rightMargin: Theme.paddingSmall
+                }
+            }
+
+            Separator {
+                visible:(index > 0?true:false)
+                width:parent.width;
+                color: Theme.highlightColor
+            }
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("NewsDetail.qml"),{
+                                   "article_id":article_id,
+                                   "setting":setting
+                               });
+            }
+        }
+
+//        footer:  Component{
+
+//            Item {
+//                id: loadMoreID
+//                anchors { left: parent.left; right: parent.right }
+//                height: visible ? Theme.itemSizeMedium : 0
+//                visible:display
+//                signal clicked()
+
+//                Item {
+//                    id:footItem
+//                    width: parent.width
+//                    height: Theme.itemSizeMedium
+//                    Button {
+//                        anchors.centerIn: parent
+//                        text: qsTr("Load More...")
+//                        onClicked: {
+//                            JS.loadMore(fromArticleID);
+//                        }
+//                    }
+//                }
+//            }
+
+//        }
+
+        VerticalScrollDecorator {flickable: view}
+
     }
 }
+

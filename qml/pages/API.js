@@ -1,6 +1,7 @@
 //获取首页新闻
 function loadNews() {
     progress.visible=true;
+    newlistModel.clear();
     var xhr = new XMLHttpRequest();
     var url="http://cnbeta1.com/api/getArticles"
     xhr.open("GET",url,true);

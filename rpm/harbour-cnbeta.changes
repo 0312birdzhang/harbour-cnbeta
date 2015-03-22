@@ -12,4 +12,10 @@
 - Scrubbed the deck
 - Hoisted the sails
 
+#Update icon
+匹配其他设备分辨率
 
+#version 0.4
+1.将设置有图无图入库，不必每次都要设置
+2.去掉上滑菜单，添加刷新下拉菜单
+3.微调界面

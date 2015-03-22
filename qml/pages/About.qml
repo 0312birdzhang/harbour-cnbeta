@@ -30,80 +30,103 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 Page {
-    id: aboutPopup
-    width: parent.width - 42
-    height: parent.height
-    PageHeader {
-        id: header
-        title: "关于 "
-    }
-
-    Column{
-
-        Row {
-            id: title
-            width: parent.width
-            x:200
-            y: header.height
-            Text { text: "C"; color: "#FEBA02"; font.pixelSize: 50 }
-            Text { text: "n"; color: "#028CBB"; font.pixelSize: 50 }
-            Text { text: "b"; color: "#ea2c81"; font.pixelSize: 50 }
-            Text { text: "e"; color: "#c0bc01"; font.pixelSize: 50 }
-            Text { text: "t"; color: "#76a1d6"; font.pixelSize: 50 }
-            Text { text: "a"; color: "#d491c5"; font.pixelSize: 50 }
-        }
-    }
-    Item {
-        id: aboutInfos
-        property string version:'0.2'
-        property string text:
-            '<style>a:link { color: ' + Theme.primaryColor  + '; }</style>' +
-            '<br>' +
-            '<br><br>此程序使用了<a href="http://cnbeta1.com/"><b>http://cnbeta1.com/</b></a>' +
-            '<br>的开放API,感谢Cnbeta1的开放接口.' +
-            '<br><br>© copyleft by 0312birdzhang.' +
-            '<br>源码地址 :' +
-            '<br><a href="https://github.com/0312birdzhang/harbour-cnbeta"><b>https://github.com/0312birdzhang/harbour-cnbeta</b></a>'
-    }
-
+    id: aboutPage
     SilicaFlickable {
-        id: aboutFlick
+        id: about
         anchors.fill: parent
-        contentHeight: contentItem.childrenRect.height
-        contentWidth: aboutFlick.width
+        contentHeight: aboutRectangle.height
+
+        VerticalScrollDecorator { flickable: about }
 
         Column {
-            id: aboutColumn
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: Theme.paddingMedium
-            }
-            y:header.height+title.height
-            spacing: Theme.paddingMedium
+            id: aboutRectangle
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width
+            spacing: Theme.paddingSmall
 
-            Item {
-                width: 1
-                height: Theme.paddingMedium
+            PageHeader {
+                //: headline of application information page
+                title: qsTr("关于")
             }
+
+            Image {
+                source: "../cover/icon.png"
+                width: parent.width
+                fillMode: Image.PreserveAspectFit
+                horizontalAlignment: Image.AlignHCenter
+            }
+
             Label {
-                id: content
-                text: aboutInfos.text
-                width: aboutFlick.width-20
+                text:  "Cnbeta 0.4"
+                horizontalAlignment: Text.Center
+                width: parent.width - Theme.paddingLarge * 2
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            SectionHeader {
+                //: headline for application description
+                text: "描述"
+            }
+
+            Label {
+                //: application description
+                textFormat: Text.RichText;
+                text: '<style>a:link { color: ' + Theme.highlightColor + '; }</style>此程序使用了<a href="http://cnbeta1.com/">http://cnbeta1.com/</a>'+
+                      '的API,感谢Cnbeta1的开放接口<br/>'+
+                      "感谢梦梦提供的桌面图标.<br/> "+
+                      "如果你对本软件有什么好的想法，可以邮件联系我 Email:birdzhang@9smart.cn<br/>"
+                width: parent.width - Theme.paddingLarge * 2
+                anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter;
                 font.pixelSize: Theme.fontSizeSmall
-                textFormat: Text.RichText
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    margins: Theme.paddingMedium
-                }
+            }
+
+            SectionHeader {
+                //: headline for application licensing information
+                text: qsTr("License")
+            }
+
+            Label {
+                //: Copyright and license information
+                text: qsTr("Copyright © by") + " 0312birzhang\n" + qsTr("License") + ": GPL v2"
+                width: parent.width - Theme.paddingLarge * 2
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: Theme.fontSizeSmall
+            }
+
+            SectionHeader {
+                //: headline for application project information
+                text: "项目源码"
+                font.pixelSize: Theme.fontSizeSmall
+            }
+
+            Label {
+                textFormat: Text.RichText;
+                text: "<style>a:link { color: " + Theme.highlightColor + "; }</style><a href=\"https://github.com/0312birdzhang/harbour-cnbeta\">https://github.com/0312birdzhang/harbour-cnbeta\</a>"
+                width: parent.width - Theme.paddingLarge * 2
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: Theme.fontSizeTiny
+
                 onLinkActivated: {
                     Qt.openUrlExternally(link)
                 }
             }
+            SectionHeader {
+                //: headline for application licensing information
+                text: qsTr("Changelog")
+            }
+            Label {
+                text: "version 0.4<br/>
+                        1.将设置有图无图入库，不必每次都要设置<br/>
+                        2.去掉上滑菜单，添加刷新下拉菜单<br/>
+                        3.微调界面<br/>"+
+                        "version 0.3<br/>"+
+                        "匹配其他设备分辨率"
+                width: parent.width - Theme.paddingLarge * 2
+                wrapMode: Text.WordWrap
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: Theme.fontSizeSmall
+            }
         }
-        VerticalScrollDecorator { flickable: aboutFlick }
     }
 }

@@ -30,12 +30,14 @@ Page{
         }
         contentHeight: detail.height
         Progress{
-         id:progress
+            id:progress
+            parent:newDetail
+            anchors.centerIn: parent
         }
         Item{
             id:detail
             y:header.height
-            width:540
+            width:newDetail.width
             height: title.height+fromMsg.height+contentID.height+header.height+Theme.fontSizeMedium
             //anchors.fill: parent
             Label{
@@ -55,7 +57,7 @@ Page{
                     left:parent.left
                     right:parent.right
                     top:title.bottom
-                    topMargin: 15
+                    margins: Theme.paddingMedium
                 }
             }
             Label{
@@ -68,12 +70,10 @@ Page{
                     left:parent.left
                     right:parent.right
                     top:fromMsg.bottom
-                    topMargin: 15
+                    margins: Theme.paddingMedium
                 }
             }
 
         }
     }
 }
-
-

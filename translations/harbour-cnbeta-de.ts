@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>About</name>
+    <message>
+        <source>关于</source>
+        <extracomment>headline of application information page</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License</source>
+        <extracomment>headline for application licensing information</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright © by</source>
+        <extracomment>Copyright and license information</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <extracomment>headline for application licensing information</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>My Cover</source>
@@ -36,13 +59,6 @@
     <message>
         <source>Item</source>
         <translation type="vanished">Element</translation>
-    </message>
-</context>
-<context>
-    <name>harbour-cnbeta</name>
-    <message>
-        <source>Cnbeta</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

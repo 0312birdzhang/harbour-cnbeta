@@ -1,9 +1,7 @@
 .import QtQuick.LocalStorage 2.0 as SQL//数据库连接模块
-//storage.js
-// 首先创建一个helper方法连接数据库
+//数据库中0:有图模式 1:无图模式
 function getDatabase() {
     return SQL.LocalStorage.openDatabaseSync("cnbeta", "1.0", "setting", 10000);
-
 }
 
 
@@ -28,25 +26,28 @@ function getSetting() {
         if (rs.rows.length > 0) {
             isopen= rs.rows.item(0).value;
             console.log("VALUE:"+isopen);
-        } else {
-            setPic(0);
-            isopen = 1;
         }
     });
-    return isopen;
+    showNews.setting= isopen;
+    //console.log("Setting:"+isopen);
 }
 
 //设置有图模式
 function setPic(on_off) {
-    var tmp = on_off === 0?1:0;
+    if(on_off ===0){
+        on_off = 1;
+    }else{
+        on_off = 0;
+    }
+    //console.log("入库:"+on_off);
     var db = getDatabase();
     db.transaction(function(tx) {
-        var rs = tx.executeSql('INSERT OR REPLACE INTO cnbeta VALUES (?);', [tmp]);
-        if (rs.rowsAffected > 0) {
-            showNews.setting =tmp;
-        } else {
+        var rs = tx.executeSql('update cnbeta set value = (?);', [on_off]);
+        if(rs.rowsAffected > 0 ){
             showNews.setting =on_off;
+            console.log("rowsAffected");
         }
+
     }
     );
 }
