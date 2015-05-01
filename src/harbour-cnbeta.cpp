@@ -42,9 +42,8 @@
 int main(int argc, char *argv[])
 {
 
-    QScopedPointer<QApplication> app(SailfishApp::application(argc, argv));
+    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> viewer(SailfishApp::createView());
-
     qmlRegisterType<NewsListRetriever>("com.yeatse.cnbeta", 1, 0, "NewsList");
     qmlRegisterType<ArticleRetriever>("com.yeatse.cnbeta", 1, 0, "Article");
     qmlRegisterType<CommentRetriever>("com.yeatse.cnbeta", 1, 0, "Comment");

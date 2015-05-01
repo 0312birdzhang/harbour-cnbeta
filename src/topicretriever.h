@@ -5,7 +5,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QVariantMap>
-#include <QWebPage>
+#include <QtWebKit/QtWebKit>
 
 class TopicRetriever : public QObject
 {

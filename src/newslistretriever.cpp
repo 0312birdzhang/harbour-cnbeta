@@ -1,6 +1,13 @@
 #include "newslistretriever.h"
 
-#include <QtDeclarative>
+//#include <QtDeclarative>
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QDebug>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkAccessManager>
 

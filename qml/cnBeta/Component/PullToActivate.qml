@@ -77,7 +77,7 @@ Item {
             }
         }
         Label {
-            platformInverted: root.platformInverted
+            //platformInverted: root.platformInverted
             text: root.enabled ? reloadTriggered ? releaseRefreshMessage : pullDownMessage : disabledMessage;
         }
     }

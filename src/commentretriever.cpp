@@ -1,6 +1,13 @@
 #include "commentretriever.h"
 
-#include <QtDeclarative>
+//#include <QtDeclarative>
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QDebug>
 #include "articleretriever.h"
 #include "utility.h"
 

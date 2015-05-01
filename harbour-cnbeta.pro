@@ -16,7 +16,8 @@ VERSION = 2.0.0
 
 DEFINES += VER=\\\"$$VERSION\\\"
 
-QT += network webkit qml quick
+QT += network qml quick gui webkitwidgets
+
 CONFIG += sailfishapp
 
 include(QJson/json.pri)
@@ -54,8 +55,6 @@ OTHER_FILES += qml/harbour-cnbeta.qml \
     qml/pages/Setting.js \
     qml/cover/icon.png \
     qml/cnBeta/Component/Notification.qml
-    rpm/harbour-cnbeta.changes
-
 # to disable building translations every time, comment out the
 # following CONFIG line
 CONFIG += sailfishapp_i18n
@@ -66,21 +65,7 @@ HEADERS += \
     src/commentretriever.h \
     src/newslistretriever.h \
     src/topicretriever.h \
-    src/utility.h \
-    QJson/FlexLexer.h \
-    QJson/json_parser.hh \
-    QJson/json_scanner.h \
-    QJson/location.hh \
-    QJson/parser.h \
-    QJson/parser_p.h \
-    QJson/parserrunnable.h \
-    QJson/position.hh \
-    QJson/qjson_debug.h \
-    QJson/qjson_export.h \
-    QJson/qobjecthelper.h \
-    QJson/serializer.h \
-    QJson/serializerrunnable.h \
-    QJson/stack.hh
+    src/utility.h
 
 TARGET.UID3 = 0xA0015BFD
 TARGET.CAPABILITY += \

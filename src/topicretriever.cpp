@@ -1,8 +1,15 @@
 #include "topicretriever.h"
 
 #include <QtNetwork/QNetworkRequest>
-#include <QtDeclarative>
-#include <QtWebKit/QWebFrame>
+//#include <QtDeclarative>
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QDebug>
+#include <QWebFrame>
 #include <QtWebKit/QWebElement>
 
 TopicRetriever::TopicRetriever(QObject *parent) :

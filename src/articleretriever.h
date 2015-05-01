@@ -6,7 +6,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariantMap>
 #include <QtCore/QUrl>
-#include <QWebKit/QWebPage>
+#include <QtWebKit/QtWebKit>
 
 class ArticleRetriever : public QObject
 {
