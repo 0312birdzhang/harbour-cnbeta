@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import com.yeatse.cnbeta 1.0
-import Sailfish.Silica.extras 1.1
+//import com.nokia.extras 1.1
 import "Component"
 
 

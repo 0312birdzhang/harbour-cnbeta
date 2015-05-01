@@ -10,7 +10,8 @@
 #include <QQmlContext>
 #include <QDebug>
 #include <QWebFrame>
-#include <QtWebKit/QWebElement>
+#include <QtWebKitWidgets>
+#include <QUrlQuery>
 
 TopicRetriever::TopicRetriever(QObject *parent) :
     QObject(parent),
@@ -33,7 +34,9 @@ TopicRetriever::~TopicRetriever()
 void TopicRetriever::sendRequest(const int &pageNumber)
 {
     QUrl url(URL_TOPICSLIST);
-    url.addQueryItem("page", QString::number(pageNumber));
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("page", QString::number(pageNumber));
+    url.setQuery(urlQuery);
     QNetworkRequest req(url);
     req.setRawHeader("user-agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)");
     req.setRawHeader("X-Requested-With", "XMLHttpRequest");

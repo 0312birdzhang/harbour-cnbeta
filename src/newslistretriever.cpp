@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkAccessManager>
-
+#include <QUrlQuery>
 #include "utility.h"
 
 NewsListRetriever::NewsListRetriever(QObject *parent) :
@@ -41,21 +41,23 @@ void NewsListRetriever::sendRequest(const QString &type, const int &pageNumber)
     m_pageNumber = pageNumber;
 
     QUrl url;
+    QUrlQuery urlQuery;
     if (m_type == "all" || m_type == "realtime"){
         url.setUrl(URL_NEWSLIST);
-        url.addQueryItem("type", type);
+        urlQuery.addQueryItem("type", type);
         if (pageNumber > 0){
-            url.addQueryItem("page", QString::number(pageNumber));
+            urlQuery.addQueryItem("page", QString::number(pageNumber));
         }
     } else {
         url.setUrl(URL_TOPICNEWS);
-        url.addQueryItem("page", QString::number(pageNumber));
-        url.addQueryItem("id", type);
+        urlQuery.addQueryItem("page", QString::number(pageNumber));
+        urlQuery.addQueryItem("id", type);
     }
     qsrand((uint)time(NULL));
     double random = (double)qrand()/INT_MAX;
-    url.addQueryItem("_", QString::number(random));
-
+    urlQuery.addQueryItem("_", QString::number(random));
+    url.setQuery(urlQuery);
+    //url.setUrl(urlQuery);
     QNetworkRequest req(url);
     req.setRawHeader("user-agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)");
     req.setRawHeader("X-Requested-With", "XMLHttpRequest");

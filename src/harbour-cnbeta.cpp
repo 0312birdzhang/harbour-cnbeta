@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     app->setOrganizationName("Yeatse");
     app->setApplicationVersion(VER);
     viewer->rootContext()->setContextProperty("utility", Utility::Instance());
-    viewer->setSource(SailfishApp::pathTo("qml/harbour-cnbeta.qml"));
+    viewer->setSource(SailfishApp::pathTo("qml/cnBeta/main.qml"));
     viewer->show();
     return app->exec();
 }

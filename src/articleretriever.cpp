@@ -7,9 +7,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QDebug>
-#include <QWebFrame>
-
-#include <QtWebKit/QWebElement>
+#include <QtWebKitWidgets>
 
 ArticleRetriever::ArticleRetriever(QObject *parent) :
     QObject(parent),

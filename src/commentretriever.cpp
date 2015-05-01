@@ -1,5 +1,4 @@
 #include "commentretriever.h"
-
 //#include <QtDeclarative>
 #include <QCoreApplication>
 #include <QDir>
@@ -37,13 +36,13 @@ void CommentRetriever::sendRequest(const QString &sid, const QString &seriesNumb
     QNetworkRequest req(QUrl(URL_COMMENTLIST));
     req.setRawHeader("user-agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)");
     req.setRawHeader("X-Requested-With", "XMLHttpRequest");
-    req.setRawHeader("Referer", QString(URL_ARTICLECONTENT).arg(sid).toAscii());
+    req.setRawHeader("Referer", QString(URL_ARTICLECONTENT).arg(sid).toLatin1());
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     QByteArray pending;
     pending.append(QString::number(pageNumber)).append(",").append(sid).append(",").append(seriesNumber);
     pending = pending.toBase64();
-    QByteArray pending2 = QString::number((uint)time(NULL)).right(6).toAscii();
+    QByteArray pending2 = QString::number((uint)time(NULL)).right(6).toLatin1();
     pending.append(pending2.toBase64());
     pending = pending.replace("=", "%253D");
     pending.prepend("op=");

@@ -2,7 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import com.yeatse.cnbeta 1.0
 import "Component"
-import "Silica"
+//import "Silica"
 
 MyPage {
     id: page;

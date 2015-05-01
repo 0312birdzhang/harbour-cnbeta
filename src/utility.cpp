@@ -2,6 +2,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
+
 #include <zlib.h>
 
 Utility::Utility(QObject *parent) :

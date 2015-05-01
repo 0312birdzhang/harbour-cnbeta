@@ -16,9 +16,10 @@ VERSION = 2.0.0
 
 DEFINES += VER=\\\"$$VERSION\\\"
 
-QT += network qml quick gui webkitwidgets
+QT += network qml quick gui webkitwidgets webkit
 
 CONFIG += sailfishapp
+
 
 include(QJson/json.pri)
 
@@ -27,15 +28,7 @@ SOURCES += src/harbour-cnbeta.cpp \
     src/commentretriever.cpp \
     src/newslistretriever.cpp \
     src/topicretriever.cpp \
-    src/utility.cpp \
-    QJson/json_parser.cc \
-    QJson/json_scanner.cc \
-    QJson/json_scanner.cpp \
-    QJson/parser.cpp \
-    QJson/parserrunnable.cpp \
-    QJson/qobjecthelper.cpp \
-    QJson/serializer.cpp \
-    QJson/serializerrunnable.cpp
+    src/utility.cpp
 
 OTHER_FILES += qml/harbour-cnbeta.qml \
     qml/pages/FirstPage.qml \
@@ -54,7 +47,8 @@ OTHER_FILES += qml/harbour-cnbeta.qml \
     qml/pages/About.qml \
     qml/pages/Setting.js \
     qml/cover/icon.png \
-    qml/cnBeta/Component/Notification.qml
+    qml/cnBeta/Component/Notification.qml \
+    qml/cnBeta/InfoBanner.qml
 # to disable building translations every time, comment out the
 # following CONFIG line
 CONFIG += sailfishapp_i18n
@@ -79,3 +73,4 @@ vendorinfo = "%{\"Yeatse\"}" ":\"Yeatse\""
 my_deployment.pkg_prerules += vendorinfo
 DEPLOYMENT += my_deployment
 
+LIBS += /usr/lib/libz.so.1

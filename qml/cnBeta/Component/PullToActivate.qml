@@ -22,7 +22,7 @@ Item {
 
     signal refresh;
 
-    width: parent ? parent.width : screen.width
+    width: parent ? parent.width : page.width
     height: 0
 
     Connections {
@@ -49,8 +49,8 @@ Item {
         anchors {
             bottom: isHeader ? parent.top : undefined; top: isHeader ? undefined : parent.bottom
             horizontalCenter: parent.horizontalCenter
-            bottomMargin: isHeader ? platformStyle.paddingLarge : 0
-            topMargin: isHeader ? 0 : platformStyle.paddingLarge
+            bottomMargin: isHeader ? constant.paddingLarge : 0
+            topMargin: isHeader ? 0 : constant.paddingLarge
         }
         Image {
             source: "../gfx/pull_down_inverse.svg"

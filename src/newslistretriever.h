@@ -1,9 +1,10 @@
 #ifndef NEWSLISTRETRIEVER_H
 #define NEWSLISTRETRIEVER_H
 
-#define URL_NEWSLIST "http://www.cnbeta.com/more.htm"
+//#define URL_NEWSLIST "http://www.cnbeta.com/more.htm"
+//#define URL_TOPICNEWS "http://www.cnbeta.com/topics/more.htm"
+#define URL_NEWSLIST "http://www.cnbeta.com"
 #define URL_TOPICNEWS "http://www.cnbeta.com/topics/more.htm"
-
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 #include <QtNetwork/QNetworkReply>

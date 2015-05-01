@@ -1,38 +1,36 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Sailfish.Silica.Theme 1.0
 
 QtObject {
     id: constant;
 
     // color
-    property color colorLight: Theme.colorNormalLightInverted;
-    property color colorMid: Theme.colorNormalMidInverted;
-    property color colorMarginLine: Theme.colorDisabledLightInverted;
-    property color colorTextSelection: Theme.colorTextSelectionInverted;
-    property color colorDisabled: Theme.colorDisabledMidInverted;
+    property color colorLight: Theme.highlightColor//tbsettings.whiteTheme ? "#191919" : "#ffffff";
+    property color colorMid: Theme.primaryColor//tbsettings.whiteTheme ? "#505050" : "#d2d2d2";
+    property color colorMarginLine: Theme.secondaryColor//tbsettings.whiteTheme ? "#a9a9a9" : "#444444";
+    property color colorTextSelection: "#4591ff"
+    property color colorDisabled: "#4591ff"
 
     // padding size
-    property int paddingSmall: Theme.paddingSmall
-    property int paddingMedium: Theme.paddingMedium
-    property int paddingLarge: Theme.paddingLarge
-    property int paddingXLarge: Theme.paddingLarge + Theme.paddingSmall
+    property int paddingSmall: Theme.paddingSmall;
+    property int paddingMedium: Theme.paddingMedium;
+    property int paddingLarge: Theme.paddingLarge;
+    property int paddingXLarge: 24;
 
     // graphic size
-    property int graphicSizeTiny: Theme.graphicSizeTiny
-    property int graphicSizeSmall: Theme.graphicSizeSmall
-    property int graphicSizeMedium: Theme.graphicSizeMedium
-    property int graphicSizeLarge: Theme.graphicSizeLarge
-    property int thumbnailSize: Theme.graphicSizeLarge * 1.5
+    property int graphicSizeTiny: 32;
+    property int graphicSizeSmall: 48;
+    property int graphicSizeMedium: 64;
+    property int graphicSizeLarge: 80;
+    property int thumbnailSize: 120;
 
     // font size
-    property int fontXSmall: Theme.fontSizeSmall - 2
-    property int fontSmall: Theme.fontSizeSmall
-    property int fontMedium: Theme.fontSizeMedium
-    property int fontLarge: Theme.fontSizeLarge
-    property int fontXLarge: Theme.fontSizeLarge + 2
-    property int fontXXLarge: Theme.fontSizeLarge + 4
-
+    property int fontXSmall: Theme.fontSizeTiny;
+    property int fontSmall: Theme.fontSizeSmall;
+    property int fontMedium: Theme.fontSizeMedium;
+    property int fontLarge: Theme.fontSizeLarge;
+    property int fontXLarge: Theme.fontSizeHuge;
+    property int fontXXLarge: Theme.fontSizeExtraSmall;
     property variant subTitleFont: __subTitleText.font;
     property variant labelFont: __label.font;
     property variant titleFont: __titleText.font;
@@ -42,10 +40,17 @@ QtObject {
     property variant sizeMedium: Qt.size(graphicSizeMedium, graphicSizeMedium);
 
     // others
-    property int headerHeight: privateStyle.tabBarHeightPortrait;
+    property int headerHeight: app.inPortrait ? 72 : 56;
 
     // private
-    property ListItemText __titleText: ListItemText {}
-    property ListItemText __subTitleText: ListItemText { role: "SubTitle"; }
-    property Label __label: Label {}
+    property Text __titleText: Text {
+        font.pixelSize: fontMedium;
+    }
+    property Text __subTitleText: Text {
+        font.pixelSize: fontSmall;
+        font.weight: Font.Light;
+    }
+    property Text __label: Text {
+        font.pixelSize: fontMedium;
+    }
 }

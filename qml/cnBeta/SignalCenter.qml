@@ -5,9 +5,9 @@ QtObject {
 
     function showMessage(msg){
         if (msg||false){
-//            infoBanner.text = msg;
-//            infoBanner.open();
-            addNotification(msg, 3)
+            infoBanner.text = msg;
+            infoBanner.open();
+
         }
     }
 }

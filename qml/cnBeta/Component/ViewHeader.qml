@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+import Sailfish.Silica 1.0
 Rectangle {
     id: root;
 
@@ -38,7 +38,7 @@ Rectangle {
         font.pixelSize: constant.fontXLarge;
         color: "white";
         style: Text.Raised;
-        styleColor: platformStyle.colorNormalMid;
+        styleColor: constant.colorMid;
         maximumLineCount: 2;
         elide: Text.ElideRight;
         wrapMode: Text.WrapAnywhere;

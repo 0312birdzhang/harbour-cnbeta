@@ -30,9 +30,9 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "pages"
+//import "pages"
 import "cnBeta"
-import "pages/API.js" as JS
+//import "pages/API.js" as JS
 
 ApplicationWindow
 {
@@ -41,14 +41,14 @@ ApplicationWindow
     initialPage: Component { MainPage { }}
 
     Constant { id: constant; }
-
+    InfoBanner { id: infoBanner }
     SignalCenter { id: signalCenter; }
 
-    Binding {
-        target: appwindow.pageStack.toolBar;
-        property: "platformInverted";
-        value: false;
-    }
+//    Binding {
+//        target: appwindow.pageStack.toolBar;
+//        property: "platformInverted";
+//        value: false;
+//    }
 
     function addNotification(inText, inTime) {
         var text = inText == undefined ? "" : inText
