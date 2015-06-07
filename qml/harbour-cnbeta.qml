@@ -30,34 +30,17 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-//import "pages"
-import "cnBeta"
+import io.thp.pyotherside 1.3
+import "pages"
+
 //import "pages/API.js" as JS
 
 ApplicationWindow
 {
     id:appwindow
    // property int setting: 0
-    initialPage: Component { MainPage { }}
+    initialPage: Component { FirstPage { }}
 
-    Constant { id: constant; }
-    InfoBanner { id: infoBanner }
-    SignalCenter { id: signalCenter; }
-
-//    Binding {
-//        target: appwindow.pageStack.toolBar;
-//        property: "platformInverted";
-//        value: false;
-//    }
-
-    function addNotification(inText, inTime) {
-        var text = inText == undefined ? "" : inText
-        var time = inTime == undefined ? 3 : inTime
-        var noti = Qt.createComponent("cnBeta/Component/Notification.qml")
-        if (noti.status == Component.Ready) {
-            var notiItem = noti.createObject(notificationBar, { "text": text, "time": time })
-        }
-    }
 
     cover: CoverBackground {
 

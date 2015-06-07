@@ -12,30 +12,15 @@
 # The name of your application
 TARGET = harbour-cnbeta
 
-VERSION = 2.0.0
-
-DEFINES += VER=\\\"$$VERSION\\\"
-
-QT += network qml quick gui webkitwidgets webkit
 
 CONFIG += sailfishapp
 
 
-include(QJson/json.pri)
+SOURCES += src/harbour-cnbeta.cpp
 
-SOURCES += src/harbour-cnbeta.cpp \
-    src/articleretriever.cpp \
-    src/commentretriever.cpp \
-    src/newslistretriever.cpp \
-    src/topicretriever.cpp \
-    src/utility.cpp
 
 OTHER_FILES += qml/harbour-cnbeta.qml \
     qml/pages/FirstPage.qml \
-    qml/cnBeta/*.qml\
-    qml/cnBeta/Component/*.qml\
-    qml/cnBeta/gfx/*.svg\
-    qml/cnBeta/gfx/*.png\
     rpm/harbour-cnbeta.spec \
     rpm/harbour-cnbeta.yaml \
     rpm/harbour-cnbeta.changes \
@@ -47,30 +32,14 @@ OTHER_FILES += qml/harbour-cnbeta.qml \
     qml/pages/About.qml \
     qml/pages/Setting.js \
     qml/cover/icon.png \
-    qml/cnBeta/Component/Notification.qml \
-    qml/cnBeta/InfoBanner.qml
 # to disable building translations every time, comment out the
 # following CONFIG line
-CONFIG += sailfishapp_i18n
+CONFIG += sailfishapp_i18n \
+    qml/pages/md5.js \
+    qml/py/__init__.py \
+    qml/py/basedir.py \
+    qml/py/image.py \
+    qml/py/mypy.py
 TRANSLATIONS += translations/harbour-cnbeta-de.ts
 
-HEADERS += \
-    src/articleretriever.h \
-    src/commentretriever.h \
-    src/newslistretriever.h \
-    src/topicretriever.h \
-    src/utility.h
 
-TARGET.UID3 = 0xA0015BFD
-TARGET.CAPABILITY += \
-    NetworkServices \
-    ReadUserData \
-    WriteUserData
-
-TARGET.EPOCHEAPSIZE = 0x40000 0x4000000
-
-vendorinfo = "%{\"Yeatse\"}" ":\"Yeatse\""
-my_deployment.pkg_prerules += vendorinfo
-DEPLOYMENT += my_deployment
-
-LIBS += /usr/lib/libz.so.1

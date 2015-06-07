@@ -30,6 +30,7 @@
 import QtQuick 2.0
 import "API.js" as JS
 import Sailfish.Silica 1.0
+import io.thp.pyotherside 1.4
 import "Setting.js" as Settings
 Page{
     id:showNews
@@ -41,7 +42,8 @@ Page{
     Component.onCompleted: {
         Settings.initialize();
         Settings.getSetting();
-        JS.loadNews();
+        //JS.loadNews();
+        //console.log(newlistModel.count);
     }
     Progress{
         id:progress
@@ -53,7 +55,32 @@ Page{
         id:newlistModel
     }
 
+    Python{
+        id:py
+        Component.onCompleted: {
+            addImportPath(Qt.resolvedUrl('../py'));
+            py.importModule('mypy', function () {
+                py.call('mypy.getNews',[],function(result){
+                    //console.log("resutl:"+result);
+                    result= eval('(' + result + ')');
+                    for ( var i in result.result.list){
+                        //console.log("get contents:"+result.result.list[i].title);
+                        newlistModel.append({
+                                                "id":result.result.list[i].sid,
+                                                "article_id":result.result.list[i].article_id,
+                                                "title":result.result.list[i].title,
+                                                "date":result.result.list[i].inputtime,
+                                                "intro":result.result.list[i].hometext,
+                                                "counter":result.result.list[i].counter
+                                            });
 
+                                   }
+                    progress.running = false;
+                })
+             });
+        }
+
+    }
     SilicaListView {
         id:view
         header: PageHeader {
@@ -112,32 +139,44 @@ Page{
                     leftMargin: Theme.paddingSmall
                 }
             }
-            Label{
-                id:timeid
-                text:"<font size='1' >发布时间 : "+date+"</font>"
-                font.pixelSize: Theme.fontSizeExtraSmall * 4 / 3
-                font.italic: true
-                //horizontalAlignment: Text.AlignRight
-                anchors {
-                    top:titleid.bottom
-                    left: parent.left
-                    leftMargin: Theme.paddingSmall
-                }
-            }
+
             Label{
                 id:summaryid
-                text:"<font size='1' >"+intro+"</font><br/>"
-                font.pixelSize: Theme.fontSizeExtraSmall*4/3
+                text:intro
+                font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.WordWrap
                 anchors {
-                    top: timeid.bottom
+                    top: titleid.bottom
                     left: parent.left
                     right: parent.right
                     leftMargin: Theme.paddingSmall
                     rightMargin: Theme.paddingSmall
                 }
             }
-
+            Label{
+                id:timeid
+                text:"发布时间 : "+date
+                font.pixelSize: Theme.fontSizeExtraSmall
+                font.italic: true
+                //horizontalAlignment: Text.AlignRight
+                anchors {
+                    top:summaryid.bottom
+                    left: parent.left
+                    leftMargin: Theme.paddingSmall
+                }
+            }
+            Label{
+                id:viewcount
+                text:"浏览数 : "+counter
+                font.pixelSize: Theme.fontSizeExtraSmall
+                font.italic: true
+                //horizontalAlignment: Text.AlignRight
+                anchors {
+                    top:summaryid.bottom
+                    right: parent.right
+                    rightMargin: Theme.paddingSmall
+                }
+            }
             Separator {
                 visible:(index > 0?true:false)
                 width:parent.width;

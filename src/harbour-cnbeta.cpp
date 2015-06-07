@@ -33,27 +33,14 @@
 #endif
 #include <QQuickView>
 #include <sailfishapp.h>
-#include "newslistretriever.h"
-#include "articleretriever.h"
-#include "commentretriever.h"
-#include "topicretriever.h"
-#include "utility.h"
+
 
 int main(int argc, char *argv[])
 {
 
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> viewer(SailfishApp::createView());
-    qmlRegisterType<NewsListRetriever>("com.yeatse.cnbeta", 1, 0, "NewsList");
-    qmlRegisterType<ArticleRetriever>("com.yeatse.cnbeta", 1, 0, "Article");
-    qmlRegisterType<CommentRetriever>("com.yeatse.cnbeta", 1, 0, "Comment");
-    qmlRegisterType<TopicRetriever>("com.yeatse.cnbeta", 1, 0, "TopicList");
-
-    app->setApplicationName("cnBeta");
-    app->setOrganizationName("Yeatse");
-    app->setApplicationVersion(VER);
-    viewer->rootContext()->setContextProperty("utility", Utility::Instance());
-    viewer->setSource(SailfishApp::pathTo("qml/cnBeta/main.qml"));
+    viewer->setSource(SailfishApp::pathTo("qml/harbour-cnbeta.qml"));
     viewer->show();
     return app->exec();
 }
