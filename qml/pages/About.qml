@@ -116,7 +116,9 @@ Page {
                 text: qsTr("Changelog")
             }
             Label {
-                text: "version 0.4<br/>
+                text:"version 0.5<br/>"+
+                     "1.更改首页加载消息的api，可以分页查看旧消息<br/>"+
+                    "version 0.4<br/>
                         1.将设置有图无图入库，不必每次都要设置<br/>
                         2.去掉上滑菜单，添加刷新下拉菜单<br/>
                         3.微调界面<br/>"+

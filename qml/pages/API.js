@@ -22,8 +22,8 @@ function loadNews() {
                 for ( var i in jsonObject.result.list){
                     console.log("get contents:"+jsonObject.result.list[i].title);
                     newlistModel.append({
-                                            "id":jsonObject.result.list[i].sid,
-                                            "article_id":jsonObject.result.list[i].article_id,
+                                            "topic":jsonObject.result.list[i].topic,
+                                            "article_id":jsonObject.result.list[i].sid,
                                             "title":jsonObject.result.list[i].title,
                                             "date":jsonObject.result.list[i].inputtime,
                                             "intro":jsonObject.result.list[i].hometext,
@@ -56,7 +56,7 @@ function loadNews() {
 //获取新闻详情
 function loadDetail(article_id)
 {
-    progress.visible=true;
+
     var xhr = new XMLHttpRequest();
     var url="http://cnbeta1.com/api/getArticleDetail/"+article_id;
     xhr.open("GET",url,true);
@@ -86,53 +86,5 @@ function loadDetail(article_id)
     }
 
     xhr.send();
-    progress.visible=false;
-
 }
 
-//获取更多新闻
-
-function loadMore(fromArticleID)
-{
-    progress.visible=true;
-    var xhr = new XMLHttpRequest();
-    var url="http://cnbeta1.com/api/getMoreArticles/"+fromArticleID;
-    xhr.open("GET",url,true);
-    xhr.onreadystatechange = function()
-    {
-        if ( xhr.readyState == xhr.DONE)
-        {
-            if ( xhr.status == 200)
-            {
-                var jsonObject = eval('(' + xhr.responseText + ')');
-                for ( var i in jsonObject  )
-                {
-                    newlistModel.append({
-                                            "id":jsonObject[i].id,
-                                            "article_id":jsonObject[i].article_id,
-                                            "title":jsonObject[i].title,
-                                            "date":jsonObject[i].date,
-                                            "intro":jsonObject[i].intro,
-                                            "topic":jsonObject[i].topic
-
-                                        });
-
-                }
-
-                progress.visible=false
-                if(newlistModel.count>3){
-                    showNews.display = true;
-                }else if( newlistModel.count==0 ){
-                    showNews.display = false;
-                    header.title="无结果"
-                }
-                else{
-                    showNews.display = false;
-                }
-            }
-        }
-    }
-
-    xhr.send();
-
-}

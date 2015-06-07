@@ -30,7 +30,7 @@
 import QtQuick 2.0
 import "API.js" as JS
 import Sailfish.Silica 1.0
-import io.thp.pyotherside 1.4
+import io.thp.pyotherside 1.3
 import "Setting.js" as Settings
 Page{
     id:showNews
@@ -39,6 +39,7 @@ Page{
     property int fromArticleID
     property bool display:false
     property int setting
+    property int page:1
     Component.onCompleted: {
         Settings.initialize();
         Settings.getSetting();
@@ -54,30 +55,64 @@ Page{
     ListModel {
         id:newlistModel
     }
+    ListModel{
+        id:tmpModel
+    }
+
+    function clearModel(){
+        newlistModel.clear();
+
+    }
+
+    function appModel(result){
+        for ( var i in result.result.list){
+            newlistModel.append({
+                                    "id":result.result.list[i].sid,
+                                    "article_id":result.result.list[i].sid,
+                                    "title":result.result.list[i].title,
+                                    "date":result.result.list[i].inputtime,
+                                    "intro":result.result.list[i].hometext,
+                                    "counter":result.result.list[i].counter
+                                });
+
+                       }
+    }
 
     Python{
         id:py
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('../py'));
             py.importModule('mypy', function () {
-                py.call('mypy.getNews',[],function(result){
-                    //console.log("resutl:"+result);
-                    result= eval('(' + result + ')');
-                    for ( var i in result.result.list){
-                        //console.log("get contents:"+result.result.list[i].title);
-                        newlistModel.append({
-                                                "id":result.result.list[i].sid,
-                                                "article_id":result.result.list[i].article_id,
-                                                "title":result.result.list[i].title,
-                                                "date":result.result.list[i].inputtime,
-                                                "intro":result.result.list[i].hometext,
-                                                "counter":result.result.list[i].counter
-                                            });
-
-                                   }
-                    progress.running = false;
-                })
+                py.loadNews(page);
              });
+
+        }
+        function loadNews(page){
+            progress.running = true;
+            py.call('mypy.getNews',[page],function(result){
+                //console.log("resutl:"+result);
+                result= eval('(' + result + ')');
+                appModel(result);
+                progress.running = false;
+            })
+        }
+        function loadrealtime(){
+            progress.running = true;
+            py.call('mypy.loadrealtime',[],function(result){
+                //console.log("resutl:"+result);
+                result= eval('(' + result + ')');
+                if(result.result.list){
+                    appModel(result);
+                }
+                newlistModel.revert()
+                progress.running = false;
+            })
+        }
+
+        onError: {
+            errorTip.visible=true;
+            view.visible=false;
+            progress.visible=false;
         }
 
     }
@@ -89,6 +124,7 @@ Page{
         }
         anchors.fill: parent
         PullDownMenu{
+            enabled: !PageStatus.Active
             MenuItem{
                 text:"关于"
                 onClicked:   pageStack.push(Qt.resolvedUrl("About.qml"));
@@ -100,18 +136,15 @@ Page{
                 }
             }
             MenuItem{
-                text:"刷新"
-                onClicked: JS.loadNews();
+                text:"加载最新"
+                onClicked: {
+                    py.loadrealtime();
+                }
             }
         }
         PushUpMenu{
             id:pushUp
-//            MenuItem{
-//                id:loadMoreID
-//                visible:display
-//                text:"加载更多..."
-//                onClicked: JS.loadMore(fromArticleID);
-//            }
+            enabled: !PageStatus.Active
             MenuItem{
                 text:"返回顶部"
                 onClicked: view.scrollToTop()
@@ -190,33 +223,51 @@ Page{
             }
         }
 
-//        footer:  Component{
+        footer: Component{
 
-//            Item {
-//                id: loadMoreID
-//                anchors { left: parent.left; right: parent.right }
-//                height: visible ? Theme.itemSizeMedium : 0
-//                visible:display
-//                signal clicked()
+            Item {
+                id: loadMoreID
+                visible: !progress.visible
+                anchors {
+                    left: parent.left;
+                    right: parent.right;
+                }
+                height: Theme.itemSizeMedium
+                Row {
+                    id:footItem
+                    spacing: Theme.paddingLarge
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Button {
+                        text: "上一页"
+                        visible: page > 1
+                        onClicked: {
+                            page--;
+                            clearModel();
+                            py.loadNews(page);
+                        }
+                    }
+                    Button{
+                        text:"下一页"
+                        onClicked: {
+                            page++;
+                            clearModel();
+                            py.loadNews(page);
+                        }
+                    }
+                }
+            }
 
-//                Item {
-//                    id:footItem
-//                    width: parent.width
-//                    height: Theme.itemSizeMedium
-//                    Button {
-//                        anchors.centerIn: parent
-//                        text: qsTr("Load More...")
-//                        onClicked: {
-//                            JS.loadMore(fromArticleID);
-//                        }
-//                    }
-//                }
-//            }
-
-//        }
+        }
 
         VerticalScrollDecorator {flickable: view}
 
+    }
+
+    Label{
+        id:errorTip
+        text:"加载失败，请稍后再试"
+        anchors.centerIn: parent
+        visible: false
     }
 }
 

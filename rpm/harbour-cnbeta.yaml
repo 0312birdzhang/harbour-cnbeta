@@ -1,6 +1,6 @@
 Name: harbour-cnbeta
 Summary: A cnbeta Client
-Version: 0.4
+Version: 0.5
 Release: 2
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
@@ -25,8 +25,6 @@ PkgConfigBR:
   - Qt5Core
   - Qt5Qml
   - Qt5Quick
-  - Qt5WebKit
-  - Qt5WebKitWidgets
 # Build dependencies without a pkgconfig setup can be listed here
 # PkgBR:
 #   - package-needed-to-build

@@ -14,7 +14,7 @@ Name:       harbour-cnbeta
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    A cnbeta Client
-Version:    0.4
+Version:    0.5
 Release:    2
 Group:      Qt/Qt
 License:    LICENSE
@@ -26,8 +26,6 @@ BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
-BuildRequires:  pkgconfig(Qt5WebKit)
-BuildRequires:  pkgconfig(Qt5WebKitWidgets)
 BuildRequires:  desktop-file-utils
 
 %description

@@ -31,6 +31,7 @@ Page{
         contentHeight: detail.height
         Progress{
             id:progress
+            running: !PageStatus.Active
             parent:newDetail
             anchors.centerIn: parent
         }
@@ -39,10 +40,10 @@ Page{
             y:header.height
             width:newDetail.width
             height: title.height+fromMsg.height+contentID.height+header.height+Theme.fontSizeMedium
-            //anchors.fill: parent
             Label{
                 id:title
                 text:newtitle
+                anchors.margins: Theme.paddingLarge
                 width:parent.width
                 font.pixelSize: Theme.fontSizeMedium
                 truncationMode: TruncationMode.Fade
@@ -50,8 +51,8 @@ Page{
             }
             Label{
                 id:fromMsg
-                text:"<font size='1' >"+intro+"</font>"
-                font.pixelSize: Theme.fontSizeExtraSmall*4/3
+                text:intro
+                font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.WordWrap
                 anchors{
                     left:parent.left
@@ -71,6 +72,14 @@ Page{
                     right:parent.right
                     top:fromMsg.bottom
                     margins: Theme.paddingMedium
+                }
+                onLinkActivated: {
+                    var linklist=link.split(".")
+                    var linktype=linklist[linklist.length -1]
+                    if(linktype =="png" ||linktype =="jpg"||linktype =="jpeg"||linktype =="gif"||linktype =="ico"||linktype =="svg"){
+                    }else{
+                       Qt.openUrlExternally(link)
+                    }
                 }
             }
 
