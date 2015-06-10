@@ -38,13 +38,22 @@ def newapi():
     data = query(url)
     return data
 
-def getnewscomment(sid):
+def getnewscontent(sid):
 	unixtime=getunixtime()
 	sign = hex_md5("app_key=10000&format=json&method=Article.NewsContent&sid="+sid+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc")
 	url="http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.NewsContent&sid="+sid+"&timestamp="+unixtime+"&v=1.0&sign="+ sign
+	print(url)
+	data = query(url)
+	print(data)
+	return data
+def getnewcomment(sid):
+	unixtime=getunixtime()
+	sign = hex_md5("app_key=10000&format=json&method=Article.Comment&page=1&sid="+sid+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc")
+	url="http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.Comment&page=1&sid="+sid+"&timestamp="+unixtime+"&v=1.0&sign="+sign
+	print(url)
 	data = query(url)
 	print(data)
 	return data
 if __name__ == "__main__":
-    getnewscomment("401535")
+    getnewcomment("401535")
 
