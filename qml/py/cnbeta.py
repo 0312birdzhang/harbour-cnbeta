@@ -54,6 +54,22 @@ def getnewcomment(sid):
 	data = query(url)
 	print(data)
 	return data
+def postcomment(sid):
+	unixtime=getunixtime()
+	sign = hex_md5("app_key=10000&content=verygood&format=json&method=Article.DoCmt&op=publish&sid="+sid+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc")
+	url="http://api.cnbeta.com/capi?app_key=10000&content=verygood&format=json&method=Article.DoCmt&op=publish&sid="+sid+"&timestamp="+unixtime+"&v=1.0&sign="+sign
+	print(url)
+	data = query(url)
+	print(data)
+def supportagainst(op,sid,tid):
+	unixtime=getunixtime()
+	sign = hex_md5("app_key=10000&format=json&method=Article.DoCmt&op="+op+"&sid="+sid+"&tid="+tid+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc")
+	url="http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.DoCmt&op="+op+"&sid="+sid+"&tid="+tid+"&timestamp="+unixtime+"&v=1.0&sign="+sign
+	print(url)
+	data = query(url)
+	print(data)
 if __name__ == "__main__":
-    getnewcomment("401535")
+    #getnewcomment("401937")
+	#postcomment("401937")
+	supportagainst("against","401937","11291183")
 
