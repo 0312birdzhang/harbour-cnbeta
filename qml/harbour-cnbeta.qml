@@ -30,42 +30,66 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import org.nemomobile.notifications 1.0
 import io.thp.pyotherside 1.3
 import "pages"
+import "pages/Setting.js" as Settings
 
-//import "pages/API.js" as JS
 
 ApplicationWindow
 {
     id:appwindow
-   // property int setting: 0
-    initialPage: Component { FirstPage { }}
+    property int openimg:-1
 
+    Component.onCompleted: {
+        Settings.initialize();
+        openimg=Settings.getSetting();
+    }
+    function updateSetting(){
+        openimg=-1*openimg;
+        Settings.setPic(openimg);
+    }
+    function formathtml(html){
+       html=html.replace(/<a href=/g,"<a style='color:"+Theme.highlightColor+"' target='_blank' href=");
+       html=html.replace(/<a class=/g,"<a style='color:"+Theme.highlightColor+"' target='_blank' class=");
+       html=html.replace(/<p>/g,"<p style='text-indent:24px'>");
+       html=html.replace(/<p style='text-indent:24px'><img/g,"<p><img");
+       html=html.replace(/<p style='text-indent:24px'><a [^<>]*href=\"([^<>"]*)\".*?><img/g,"<p><a href='$1'><img");
+       html=html.replace(/<img src=\"([^<>"]*)\".*?>/g,"<a href='$1.showimg'><img src=\"$1\" width="+(Screen.width-Theme.paddingMedium*2)+"/></a>");//$&</a>");
+       html=html.replace(/<img src/g,"<img src='default.jpg' x-src");
+//        html=html.replace(/<p><img /g,"<p style='text-indent:-10px'><img width="+Screen.width+" ");
+//        html=html.replace(/<img /g,"<img style='max-width:"+Screen.width+";margin-left:-10px;' ");
+
+        return html;
+    }
+    initialPage: Component {
+        FirstPage { }
+    }
+
+    Notification {
+        id: notification
+    }
+    function showMsg(message) {
+        notification.previewBody = "Cnbeta";
+        notification.previewSummary = message;
+        notification.publish();
+    }
 
     cover: CoverBackground {
-
-        Image{
-            id: label
-            source:"cover/icon.png"
-            anchors.centerIn: parent
+        CoverPlaceholder{
+            icon.source: "cover/icon.png"
+            text:"Cnbeta"
         }
+//        CoverActionList {
+//            id: coverAction
 
-
-        CoverActionList {
-            id: coverAction
-
-            CoverAction {
-                iconSource: "image://theme/icon-cover-refresh"
-                onTriggered:{
-                    while(pageStack.depth > 1) {
-                        pageStack.pop(undefined, PageStackAction.Immediate);
-                    }
-                    pageStack.replace("pages/FirstPage.qml");
-                    appwindow.activate();
-
-                }
-            }
-        }
+//            CoverAction {
+//                iconSource: "image://theme/icon-cover-refresh"
+//                onTriggered:{
+//                    appwindow.activate();
+//                }
+//            }
+//        }
     }
 }
 

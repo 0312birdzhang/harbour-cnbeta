@@ -8,14 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* Sun Apr 13 2014 Jack Tar <jack.tar@example.com> 0.0.1-1
-- Scrubbed the deck
-- Hoisted the sails
-
-#Update icon
-匹配其他设备分辨率
-
-#version 0.4
-1.将设置有图无图入库，不必每次都要设置
-2.去掉上滑菜单，添加刷新下拉菜单
-3.微调界面
+* Fri Jun 19 2015 BirdZhang <0312birdzhang.com> 0.6.2
+-更换API
+-由蝉曦调整界面
+-由蝉曦修改详细页面图片加载方式
+-添加评论查看，评论的支持跟反对无效
+-修复加载最新功能，提示新增条数
