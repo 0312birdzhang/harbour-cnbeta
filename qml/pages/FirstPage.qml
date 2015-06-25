@@ -31,21 +31,14 @@ import QtQuick 2.0
 import "API.js" as JS
 import Sailfish.Silica 1.0
 import io.thp.pyotherside 1.3
-import "Setting.js" as Settings
+
 Page{
     id:showNews
 
     property int operationType: PageStackAction.Animated
     property int fromArticleID
-    property bool display:false
-    property int setting
     property int page:1
-    Component.onCompleted: {
-        Settings.initialize();
-        Settings.getSetting();
-        //JS.loadNews();
-        //console.log(newlistModel.count);
-    }
+
     Progress{
         id:progress
         parent:showNews
@@ -72,10 +65,29 @@ Page{
                                     "title":result.result.list[i].title,
                                     "date":result.result.list[i].inputtime,
                                     "intro":result.result.list[i].hometext,
-                                    "counter":result.result.list[i].counter
+                                    "comments":result.result.list[i].comments,//评论数
+                                    "counter":result.result.list[i].counter,//浏览数
+                                    "score":result.result.list[i].score,//文章分
+                                    "score_story":result.result.list[i].score_story//事件分
                                 });
 
                        }
+    }
+    function insertModel(querydata){
+        for ( var i in querydata.result){
+            console.log("refresh:"+querydata.result[i].title);
+            newlistModel.insert(0,{
+                                    "id":querydata.result[i].sid,
+                                    "article_id":querydata.result[i].sid,
+                                    "title":querydata.result[i].title,
+                                    "date":querydata.result[i].inputtime,
+                                    "intro":querydata.result[i].hometext,
+                                    "comments":querydata.result[i].comments,//评论数
+                                    "counter":querydata.result[i].counter,//浏览数
+                                    "score":querydata.result[i].score,//文章分
+                                    "score_story":querydata.result[i].score_story//事件分
+                                });
+        }
     }
 
     Python{
@@ -94,28 +106,40 @@ Page{
                 result= eval('(' + result + ')');
                 appModel(result);
                 progress.running = false;
-            })
-        }
-        function loadrealtime(){
-            progress.running = true;
-            py.call('mypy.loadrealtime',[],function(result){
-                //console.log("resutl:"+result);
-                result= eval('(' + result + ')');
-                if(result.result.list){
-                    appModel(result);
-                }
-                newlistModel.revert()
-                progress.running = false;
-            })
+            });
         }
 
+
         onError: {
-            errorTip.visible=true;
-            view.visible=false;
+            showMsg("加载失败，请刷新重试！")
             progress.visible=false;
         }
 
     }
+    Python{
+        id:repy
+        Component.onCompleted: {
+            addImportPath(Qt.resolvedUrl('../py'));
+            repy.importModule('mypy', function () {
+             });
+        }
+        function querytime(nextsid){
+             progress.running = true;
+            repy.call('mypy.queryreal',[nextsid],function(result){
+            })
+        }
+
+        onReceived: {
+            var querydata = eval('(' + data + ')');
+            var befcount = newlistModel.count;
+            insertModel(querydata);
+            //newlistModel = newlistModel.revert();
+            progress.running = false
+            var aftcount = newlistModel.count;
+            showMsg((parseInt(aftcount)-parseInt(befcount))+" 条新资讯")
+        }
+    }
+
     SilicaListView {
         id:view
         header: PageHeader {
@@ -124,27 +148,33 @@ Page{
         }
         anchors.fill: parent
         PullDownMenu{
-            enabled: !PageStatus.Active
+
             MenuItem{
-                text:"关于"
-                onClicked:   pageStack.push(Qt.resolvedUrl("About.qml"));
+                text:"关于&设置"
+
+                onClicked:pageStack.push(Qt.resolvedUrl("About.qml"));
             }
-            MenuItem{
-                text:(setting ===0?"无图模式":"有图模式" )
-                onClicked :{
-                    Settings.setPic(setting);
-                }
-            }
+//            MenuItem{
+//                text: openimg == 1 ? "切换到省流量模式" : "切换到有图模式"
+//                onClicked: updateSetting()
+//            }
             MenuItem{
                 text:"加载最新"
+                enabled: page == 1
                 onClicked: {
-                    py.loadrealtime();
+                    console.log(newlistModel.count)
+                    if(newlistModel.count > 0){
+                        var nextsid=newlistModel.get(0).article_id;
+                        repy.querytime(nextsid);
+                    }else{
+                        py.loadNews(page)
+                    }
                 }
             }
         }
         PushUpMenu{
             id:pushUp
-            enabled: !PageStatus.Active
+
             MenuItem{
                 text:"返回顶部"
                 onClicked: view.scrollToTop()
@@ -154,71 +184,86 @@ Page{
 
         clip: true
         model : newlistModel
-        //contentHeight: childrenRect.height
+        //spacing:Theme.paddingMedium
         delegate:
             BackgroundItem{
             id:showlist
-            height:titleid.height+timeid.height+summaryid.height
+            height:titleid.height+timeid.height+summaryid.height+Theme.paddingMedium*4
             width: parent.width
             Label{
                 id:titleid
-                text:"<br/>"+title
-                font.pixelSize: Theme.fontSizeMedium
+                text:title
+                font.pixelSize: Theme.fontSizeSmall
                 truncationMode: TruncationMode.Fade
                 wrapMode: Text.WordWrap
+                color: Theme.highlightColor
+                font.bold:true;
                 anchors {
+                    top:parent.top;
                     left: parent.left
                     right: parent.right
-                    leftMargin: Theme.paddingSmall
+                    topMargin: Theme.paddingMedium
+                    leftMargin: Theme.paddingMedium
+                    rightMargin: Theme.paddingMedium
                 }
             }
 
             Label{
                 id:summaryid
-                text:intro
+                text:intro.replace(/(<[\/]?strong>)|(<[\/]?p>)/g,"")
+                textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.WordWrap
+                linkColor:Theme.primaryColor
+                maximumLineCount: 6
                 anchors {
                     top: titleid.bottom
                     left: parent.left
                     right: parent.right
-                    leftMargin: Theme.paddingSmall
-                    rightMargin: Theme.paddingSmall
+                    topMargin: Theme.paddingMedium
+                    leftMargin: Theme.paddingMedium
+                    rightMargin: Theme.paddingMedium
                 }
             }
             Label{
                 id:timeid
-                text:"发布时间 : "+date
-                font.pixelSize: Theme.fontSizeExtraSmall
-                font.italic: true
+                text:"文章分 : "+score+" 分 / 事件分: "+score_story+" 分"//"发布时间 : "+date
+                //opacity: 0.7
+                font.pixelSize: Theme.fontSizeTiny
+                //font.italic: true
+                color: Theme.secondaryColor
                 //horizontalAlignment: Text.AlignRight
                 anchors {
                     top:summaryid.bottom
                     left: parent.left
-                    leftMargin: Theme.paddingSmall
+                    topMargin: Theme.paddingMedium
+                    leftMargin: Theme.paddingMedium
                 }
             }
             Label{
                 id:viewcount
-                text:"浏览数 : "+counter
-                font.pixelSize: Theme.fontSizeExtraSmall
-                font.italic: true
+                text:"评论 : "+comments+" / 浏览 : "+counter
+                //opacity: 0.7
+                font.pixelSize: Theme.fontSizeTiny
+                //font.italic: true
+                color: Theme.secondaryColor
                 //horizontalAlignment: Text.AlignRight
                 anchors {
                     top:summaryid.bottom
                     right: parent.right
-                    rightMargin: Theme.paddingSmall
+                    topMargin: Theme.paddingMedium
+                    rightMargin: Theme.paddingMedium
                 }
             }
             Separator {
                 visible:(index > 0?true:false)
                 width:parent.width;
+                //alignment:Qt.AlignHCenter
                 color: Theme.highlightColor
             }
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("NewsDetail.qml"),{
-                                   "article_id":article_id,
-                                   "setting":setting
+                                   "sid":article_id
                                });
             }
         }
@@ -227,7 +272,7 @@ Page{
 
             Item {
                 id: loadMoreID
-                visible: !progress.visible
+                visible: !progress.running
                 anchors {
                     left: parent.left;
                     right: parent.right;
@@ -263,11 +308,7 @@ Page{
 
     }
 
-    Label{
-        id:errorTip
-        text:"加载失败，请稍后再试"
-        anchors.centerIn: parent
-        visible: false
-    }
+
+
 }
 

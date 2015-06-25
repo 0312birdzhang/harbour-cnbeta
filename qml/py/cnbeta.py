@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 
+# -*- coding: utf-8 -*-
 import sys,os
 import urllib.request
 import urllib.parse
@@ -72,4 +72,3 @@ if __name__ == "__main__":
     #getnewcomment("401937")
 	#postcomment("401937")
 	supportagainst("against","401937","11291183")
-

@@ -39,7 +39,9 @@ CONFIG += sailfishapp_i18n \
     qml/py/__init__.py \
     qml/py/basedir.py \
     qml/py/image.py \
-    qml/py/mypy.py
+    qml/py/mypy.py \
+    qml/py/cnbeta.py \
+    qml/pages/CommentsPage.qml
 TRANSLATIONS += translations/harbour-cnbeta-de.ts
 
 
