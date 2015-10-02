@@ -4,6 +4,7 @@ import urllib.parse
 import pyotherside
 import json
 from basedir import *
+import subprocess
 
 target=HOME+"/Downloads/"
 
@@ -32,5 +33,12 @@ def getNews(page):
     #print(data)
     return data
 
-
+def netOkorFail():
+    fnull = open(os.devnull, 'w')
+    result=subprocess.call('ping 223.5.5.5',shell=True,stdout=fnull,stderr=fnull)
+    if result:
+        return False
+    else:
+        return True
+    fnull.close()
 

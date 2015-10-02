@@ -57,7 +57,7 @@ Page {
             }
 
             Label {
-                text:  "Cnbeta 0.6"
+                text:  "Cnbeta 0.7.1"
                 horizontalAlignment: Text.Center
                 width: parent.width - Theme.paddingLarge * 2
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -74,7 +74,8 @@ Page {
                 text: '<style>a:link { color: ' + Theme.highlightColor + '; }</style>此程序使用了<a href="http://cnbeta1.com/">http://cnbeta1.com/</a>'+
                       '的API,以及OSC <a href="https://git.oschina.net/ywwxhz/cnBeta-reader">cnBeta-reader</a>项目<br/>'+
                       "感谢梦梦提供的桌面图标.<br/> "+
-                      "如果你对本软件有什么好的想法，可以邮件联系我 Email:birdzhang@9smart.cn<br/>"
+                      "感谢coderus的黑科技方法绕过harbour校验<br/>"+
+                      "如果你对本软件有什么好的想法，可以邮件联系我 Email:0312birdzhang@gmail.com<br/>"
                 width: parent.width - Theme.paddingLarge * 2
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
@@ -131,9 +132,11 @@ Page {
                 text: "改动日志"
             }
             Label {
-                text:"version 0.6<br/>"+
+                text:"version 0.7<br/>"+
+                     "1.调整消息通知<br/>"+
+                    "version 0.6<br/>"+
                      "1.许多改动...这里要感谢蝉曦么么哒<br/>"+
-                     "2.评论的支持跟反对可以是API的问题，即使提交成功也不工作<br/>"+
+                     "2.评论的支持跟反对可能是API的问题，即使提交成功也不工作<br/>"+
                     "version 0.5<br/>"+
                      "1.更改首页加载消息的api，可以分页查看旧消息<br/>"+
                      "2.文章中的链接点击可以用自带浏览器打开<br/>"+

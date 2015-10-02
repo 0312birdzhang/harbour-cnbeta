@@ -1,11 +1,11 @@
 Name: harbour-cnbeta
 Summary: A cnbeta Client
-Version: 0.6
-Release: 2
+Version: 0.7
+Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
 Group: Qt/Qt
-URL: http://example.org/
+URL: http://www.birdzhang.xyz
 License: LICENSE
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.
@@ -25,6 +25,7 @@ PkgConfigBR:
   - Qt5Core
   - Qt5Qml
   - Qt5Quick
+
 # Build dependencies without a pkgconfig setup can be listed here
 # PkgBR:
 #   - package-needed-to-build
@@ -42,4 +43,3 @@ Files:
 
 # For more information about yaml and what's supported in Sailfish OS
 # build system, please see https://wiki.merproject.org/wiki/Spectacle
-

@@ -108,10 +108,16 @@ Page{
                 progress.running = false;
             });
         }
-
+//        function netOkorFail(){
+//            py.call('mypy.netOkorFail',[],function(result){
+//                    if(!result){
+//                        return "未连接到互联网！"
+//                    }
+//                })
+//        }
 
         onError: {
-            showMsg("加载失败，请刷新重试！")
+            //showMsg("加载失败，请刷新重试！")
             progress.visible=false;
         }
 
@@ -305,6 +311,17 @@ Page{
         }
 
         VerticalScrollDecorator {flickable: view}
+
+        ViewPlaceholder {
+            enabled: view.count == 0 && !PageStatus.Active
+            text: "无结果，点击重试"
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    py.loadNews(page)
+                }
+            }
+        }
 
     }
 

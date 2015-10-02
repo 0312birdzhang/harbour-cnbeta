@@ -8,6 +8,12 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Fri Oct 2 2015 BirdZhang <0312birdzhang.com> 0.7.1
+-使用新的通知栏
+
+* Fri Jun 19 2015 BirdZhang <0312birdzhang.com> 0.6.3
+-解决harbour商店校验问题，感谢coderus
+
 * Fri Jun 19 2015 BirdZhang <0312birdzhang.com> 0.6.2
 -更换API
 -由蝉曦调整界面

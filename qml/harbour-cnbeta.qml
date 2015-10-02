@@ -30,20 +30,23 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import org.nemomobile.notifications 1.0
 import io.thp.pyotherside 1.3
 import "pages"
 import "pages/Setting.js" as Settings
-
-
+import org.nemomobile.notifications 1.0
 ApplicationWindow
 {
+
     id:appwindow
     property int openimg:-1
 
     Component.onCompleted: {
         Settings.initialize();
         openimg=Settings.getSetting();
+    }
+    Notification{
+        id:notification
+        appName: "CnBeta"
     }
     function updateSetting(){
         openimg=-1*openimg;
@@ -66,12 +69,10 @@ ApplicationWindow
         FirstPage { }
     }
 
-    Notification {
-        id: notification
-    }
     function showMsg(message) {
         notification.previewBody = "Cnbeta";
         notification.previewSummary = message;
+        notification.close();
         notification.publish();
     }
 

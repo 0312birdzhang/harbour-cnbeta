@@ -6,7 +6,6 @@
 Name:       harbour-cnbeta
 
 # >> macros
-%define __requires_exclude ^libc.*$
 # << macros
 
 %{!?qtc_qmake:%define qtc_qmake %qmake}
@@ -14,11 +13,11 @@ Name:       harbour-cnbeta
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    A cnbeta Client
-Version:    0.6
-Release:    2
+Version:    0.7
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
-URL:        http://example.org/
+URL:        http://www.birdzhang.xyz
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-cnbeta.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
