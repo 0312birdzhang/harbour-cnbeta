@@ -101,11 +101,13 @@ Page{
         }
         function loadNews(page){
             progress.running = true;
+            timer.start()
             py.call('mypy.getNews',[page],function(result){
                 //console.log("resutl:"+result);
                 result= eval('(' + result + ')');
                 appModel(result);
                 progress.running = false;
+                timer.stop()
             });
         }
 //        function netOkorFail(){
@@ -327,5 +329,10 @@ Page{
 
 
 
+    Timer{
+        id:timer
+        interval: 1500; running: true; repeat: false
+        onTriggered: view.count = 0
+    }
 }
 

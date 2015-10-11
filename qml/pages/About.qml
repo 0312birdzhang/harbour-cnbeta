@@ -105,6 +105,7 @@ Page {
                     id: imgswitch
                     checked: openimg == 1
                     onClicked: updateSetting()
+                    description:"Wifi下默认显示图片"
                     text: "显示图片"
                 }
 

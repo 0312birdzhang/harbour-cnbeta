@@ -92,6 +92,26 @@ ApplicationWindow
 //            }
 //        }
     }
+
+    //wlan下自动打开图片
+    Python{
+        id:wlan
+        Component.onCompleted: {
+            addImportPath(Qt.resolvedUrl('./py'));
+            wlan.importModule('mypy', function () {
+                wlan.get_ip_address("wlan0");
+             });
+
+        }
+        function get_ip_address(interface_name){
+            wlan.call('mypy.get_ip_address',[interface_name],function(result){
+                if(result){
+                    openimg=1;
+                }
+            });
+        }
+
+    }
 }
 
 
