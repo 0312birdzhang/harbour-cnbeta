@@ -9,6 +9,5 @@ Cnbeta客户端
 
 软件截图
 
-![image](https://openrepos.net/sites/default/files/packages/2414/screenshot-screenshot-20-06-15-10-48-04.png)
+![image](https://openrepos.net/sites/default/files/packages/2414/screenshot-screenshot-15-10-02-21-21-35.png)
 ![image](https://openrepos.net/sites/default/files/packages/2414/screenshot-screenshot-20-06-15-10-48-27.png)
-![image](https://openrepos.net/sites/default/files/packages/2414/screenshot-screenshot-20-06-15-10-49-08.png)
