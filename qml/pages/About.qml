@@ -31,6 +31,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 Page {
     id: aboutPage
+    allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
     SilicaFlickable {
         id: about
         anchors.fill: parent
@@ -57,7 +58,7 @@ Page {
             }
 
             Label {
-                text:  "Cnbeta 0.7.1"
+                text:  "Cnbeta 0.7.2"
                 horizontalAlignment: Text.Center
                 width: parent.width - Theme.paddingLarge * 2
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -135,6 +136,7 @@ Page {
             Label {
                 text:"version 0.7<br/>"+
                      "1.调整消息通知<br/>"+
+                     "2.Wifi下默认显示图片<br/>"+
                     "version 0.6<br/>"+
                      "1.许多改动...这里要感谢蝉曦么么哒<br/>"+
                      "2.评论的支持跟反对可能是API的问题，即使提交成功也不工作<br/>"+

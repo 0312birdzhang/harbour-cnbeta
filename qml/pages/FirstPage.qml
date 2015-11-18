@@ -38,6 +38,7 @@ Page{
     property int operationType: PageStackAction.Animated
     property int fromArticleID
     property int page:1
+    allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
 
     Progress{
         id:progress
@@ -101,7 +102,7 @@ Page{
         }
         function loadNews(page){
             progress.running = true;
-            timer.start()
+            //timer.start()
             py.call('mypy.getNews',[page],function(result){
                 //console.log("resutl:"+result);
                 result= eval('(' + result + ')');
@@ -329,10 +330,10 @@ Page{
 
 
 
-    Timer{
-        id:timer
-        interval: 1500; running: true; repeat: false
-        onTriggered: view.count = 0
-    }
+//    Timer{
+//        id:timer
+//        interval: 1500; running: true; repeat: false
+//        onTriggered: view.count = 0
+//    }
 }
 

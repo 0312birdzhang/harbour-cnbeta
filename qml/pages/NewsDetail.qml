@@ -38,6 +38,7 @@ Page{
     property string brief
     property string time
     //onBodytextChanged: console.log(formathtml(bodytext).replace(/<img src/g,"<img src='default.jpg' x-src"))
+    allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
 
     function parseContent(result){
         title=result.result.title;
@@ -165,7 +166,7 @@ Page{
                 id:contentbody
                 opacity: 0.8
                 textFormat: Text.RichText //openimg == 1 ? Text.RichText : Text.StyledText;
-                text:openimg == 1 ? formathtml(bodytext).replace(/src='default.jpg' x-src/g,"src") :
+                text:(iswifi||openimg == 1) ? formathtml(bodytext).replace(/src='default.jpg' x-src/g,"src") :
                                     formathtml(bodytext);
                 font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.WordWrap
@@ -185,7 +186,7 @@ Page{
                     var linklist=link.split(".")
                     var linktype=linklist[linklist.length -1]
                     if(linktype =="png" ||linktype =="jpg"||linktype =="jpeg"||linktype =="gif"||linktype =="ico"||linktype =="svg"){
-                        console.log(linktype)
+                        //console.log(linktype)
                     }else if(linktype =="showimg"){
                         var utl=link.substring(0,link.length-8)
                         contentbody.text=contentbody.text.replace(link+"'><img src='default.jpg' x-src=\""+utl+"\"",utl+"'><img src=\""+utl+"\"")

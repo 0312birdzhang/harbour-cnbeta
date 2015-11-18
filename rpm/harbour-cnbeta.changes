@@ -8,6 +8,10 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Fri Oct 2 2015 BirdZhang <0312birdzhang.com> 0.7.2
+-修复bug
+-wifi下默认显示图片
+
 * Fri Oct 2 2015 BirdZhang <0312birdzhang.com> 0.7.1
 -使用新的通知栏
 

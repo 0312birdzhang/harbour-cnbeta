@@ -42,7 +42,7 @@ def netOkorFail():
         return True
     fnull.close()
 
-def get_ip_address(ifname):
+def get_ip_address(ifname=b"wlan0"):
     import socket
     import fcntl
     import struct

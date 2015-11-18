@@ -39,10 +39,35 @@ ApplicationWindow
 
     id:appwindow
     property int openimg:-1
+    property bool iswifi:false
+    allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
+    //wlan下自动打开图片
+    Python{
+        id:wlan
+        Component.onCompleted: {
+            addImportPath(Qt.resolvedUrl('./py'));
+            wlan.importModule('mypy', function () {
+                //wlan.get_ip_address("wlan0");
+             });
+
+        }
+        function get_ip_address(){
+            wlan.call('mypy.get_ip_address',[],function(result){
+                if(result){
+                    iswifi = true
+                }else{
+                    iswifi = false
+                }
+
+            });
+        }
+
+    }
 
     Component.onCompleted: {
         Settings.initialize();
         openimg=Settings.getSetting();
+        wlan.get_ip_address()
     }
     Notification{
         id:notification
@@ -51,6 +76,8 @@ ApplicationWindow
     function updateSetting(){
         openimg=-1*openimg;
         Settings.setPic(openimg);
+       //重置图片显示
+        //openimg=iswifi?1:-1
     }
     function formathtml(html){
        html=html.replace(/<a href=/g,"<a style='color:"+Theme.highlightColor+"' target='_blank' href=");
@@ -93,25 +120,7 @@ ApplicationWindow
 //        }
     }
 
-    //wlan下自动打开图片
-    Python{
-        id:wlan
-        Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('./py'));
-            wlan.importModule('mypy', function () {
-                wlan.get_ip_address("wlan0");
-             });
 
-        }
-        function get_ip_address(interface_name){
-            wlan.call('mypy.get_ip_address',[interface_name],function(result){
-                if(result){
-                    openimg=1;
-                }
-            });
-        }
-
-    }
 }
 
 

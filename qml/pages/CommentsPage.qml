@@ -9,6 +9,7 @@ Page{
     property string sid
     property int commpage: 1
     property int commentscount : 1
+    allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
     ListModel{
         id:commentModel
     }
@@ -93,7 +94,7 @@ Page{
                 color: Theme.highlightColor
                 horizontalAlignment: Text.AlignLeft
                 truncationMode: TruncationMode.Elide
-                width: parent.width
+                width: parent.width - date.width - Theme.paddingSmall
                 anchors {
                     top:parent.top
                     left: parent.left
