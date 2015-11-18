@@ -28,7 +28,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 import QtQuick 2.0
-import "API.js" as JS
 import Sailfish.Silica 1.0
 import io.thp.pyotherside 1.3
 
@@ -271,7 +270,8 @@ Page{
             }
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("NewsDetail.qml"),{
-                                   "sid":article_id
+                                   "sid":article_id,
+                                   "comments":comments
                                });
             }
         }
@@ -335,4 +335,3 @@ Page{
         onTriggered: view.count = 0
     }
 }
-
