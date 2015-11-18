@@ -47,7 +47,7 @@ Page{
         bodytext=result.result.bodytext;
         time=result.result.time;
 
-        comments=result.result.comments;
+        //comments=result.result.comments;
         aid=result.result.aid;
 
 
