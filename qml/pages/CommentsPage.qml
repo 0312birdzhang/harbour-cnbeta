@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "API.js" as JS
 import "Setting.js" as Settings
 import io.thp.pyotherside 1.3
 
