@@ -37,6 +37,11 @@ Page{
     property int operationType: PageStackAction.Animated
     property int fromArticleID
     property int page:1
+    property int start_sid
+    property int end_sid
+    property int start_topic
+    property int end_topic
+    
     allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
 
     Progress{
@@ -58,6 +63,8 @@ Page{
     }
 
     function appModel(result){
+        start_sid = result.result[0].sid;
+        end_sid = result.result[19].sid;
         for ( var i in result.result){
             newlistModel.append({
                                     "id":result.result[i].sid,
@@ -74,18 +81,19 @@ Page{
                        }
     }
     function insertModel(querydata){
+        start_sid = result.result[0].sid;
+        end_sid = result.result[result.result.length-1].sid;
         for ( var i in querydata.result){
-            console.log("refresh:"+querydata.result[i].title);
             newlistModel.insert(0,{
-                                    "id":querydata.result[i].sid,
-                                    "article_id":querydata.result[i].sid,
-                                    "title":querydata.result[i].title,
-                                    "date":querydata.result[i].pubtime,
-                                    "intro":querydata.result[i].hometext,
-                                    "comments":querydata.result[i].comments,//评论数
-                                    "counter":querydata.result[i].counter,//浏览数
-                                    "score":querydata.result[i].score,//文章分
-                                    "score_story":querydata.result[i].score_story//事件分
+                                    "id":result.result[i].sid,
+                                    "article_id":result.result[i].sid,
+                                    "title":result.result[i].title,
+                                    "date":result.result[i].pubtime,
+                                    "intro":result.result[i].summary,
+                                    "comments":result.result[i].comments,//评论数
+                                    "counter":result.result[i].counter,//浏览数
+                                    "score":result.result[i].score,//文章分
+                                    "score_story":result.result[i].score_story//事件分
                                 });
         }
     }
@@ -95,19 +103,29 @@ Page{
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('../py'));
             py.importModule('cnbeta', function () {
-                py.loadNews(page);
+                py.loadNews();
              });
 
         }
-        function loadNews(page){
+        function loadNews(){
             progress.running = true;
             //timer.start()
-            py.call('cnbeta.getnewslist',[page],function(result){
+            py.call('cnbeta.getnewslist',[],function(result){
                 //console.log("resutl:"+result);
                 result= eval('(' + result + ')');
                 appModel(result);
                 progress.running = false;
-                timer.stop()
+                // timer.stop()
+            });
+        }
+
+
+        function getPre(){
+            progress.running = true;
+            py.call('cnbeta.queryBefore',[end_sid,end_topic],function(res){
+                result= eval('(' + result + ')');
+                appModel(res);
+                progress.running = false;
             });
         }
 //        function netOkorFail(){
