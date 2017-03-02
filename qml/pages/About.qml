@@ -134,7 +134,10 @@ Page {
                 text: "改动日志"
             }
             Label {
-                text:"version 0.7<br/>"+
+                text:"version 0.8<br/>"+
+                     "1.更新API"+
+                     "2.去掉无用文件<br/>"+
+                    "version 0.7<br/>"+
                      "1.调整消息通知<br/>"+
                      "2.Wifi下默认显示图片<br/>"+
                     "version 0.6<br/>"+

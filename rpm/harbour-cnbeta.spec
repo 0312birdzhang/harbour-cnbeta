@@ -13,7 +13,7 @@ Name:       harbour-cnbeta
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    A cnbeta Client
-Version:    0.7.4
+Version:    0.8.1
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE

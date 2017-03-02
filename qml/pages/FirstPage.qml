@@ -64,7 +64,9 @@ Page{
 
     function appModel(result){
         start_sid = result.result[0].sid;
+        start_topic = result.result[0].topic;
         end_sid = result.result[19].sid;
+        end_topic = result.result[19].topic;
         for ( var i in result.result){
             newlistModel.append({
                                     "id":result.result[i].sid,
@@ -110,9 +112,9 @@ Page{
         function loadNews(){
             progress.running = true;
             //timer.start()
-            py.call('cnbeta.getnewslist',[],function(result){
+            py.call('cnbeta.getnewslist',[],function(res){
                 //console.log("resutl:"+result);
-                result= eval('(' + result + ')');
+                var result= eval('(' + res + ')');
                 appModel(result);
                 progress.running = false;
                 // timer.stop()
@@ -122,9 +124,23 @@ Page{
 
         function getPre(){
             progress.running = true;
+            console.log("getPre:"+end_sid+" "+end_topic)
             py.call('cnbeta.queryBefore',[end_sid,end_topic],function(res){
-                result= eval('(' + result + ')');
-                appModel(res);
+                var result= eval('(' + res + ')');
+                clearModel();
+                appModel(result);
+                view.scrollToTop();
+                progress.running = false;
+            });
+        }
+        function getNext(){
+            progress.running = true;
+
+            py.call('cnbeta.queryNext',[start_sid,start_topic],function(res){
+                var result= eval('(' + res + ')');
+                clearModel();
+                appModel(result);
+                view.scrollToTop();
                 progress.running = false;
             });
         }
@@ -184,19 +200,19 @@ Page{
 //                text: openimg == 1 ? "切换到省流量模式" : "切换到有图模式"
 //                onClicked: updateSetting()
 //            }
-            // MenuItem{
-            //     text:"加载最新"
-            //     enabled: page == 1
-            //     onClicked: {
-            //         console.log(newlistModel.count)
-            //         if(newlistModel.count > 0){
-            //             var nextsid=newlistModel.get(0).article_id;
-            //             repy.querytime(nextsid);
-            //         }else{
-            //             py.loadNews(page)
-            //         }
-            //     }
-            // }
+//             MenuItem{
+//                 text:"加载最新"
+//                 enabled: page == 1
+//                 onClicked: {
+//                     console.log(newlistModel.count)
+//                     if(newlistModel.count > 0){
+//                         var nextsid=newlistModel.get(0).article_id;
+//                         repy.querytime(nextsid);
+//                     }else{
+//                         py.loadNews(page)
+//                     }
+//                 }
+//             }
         }
         PushUpMenu{
             id:pushUp
@@ -314,16 +330,14 @@ Page{
                         visible: page > 1
                         onClicked: {
                             page--;
-                            clearModel();
-                            py.loadNews(page);
+                            py.getNext();
                         }
                     }
                     Button{
                         text:"下一页"
                         onClicked: {
                             page++;
-                            clearModel();
-                            py.loadNews(page);
+                            py.getPre();
                         }
                     }
                 }
@@ -339,7 +353,7 @@ Page{
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    py.loadNews(page)
+                    py.loadNews()
                 }
             }
         }

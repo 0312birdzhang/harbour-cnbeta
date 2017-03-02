@@ -5,7 +5,8 @@ import urllib.parse
 import json
 import time
 import hashlib
-import pyotherside
+#import pyotherside
+
 
 api = "http://api.cnbeta.com/capi?"
 
@@ -24,7 +25,6 @@ def query(url):
 
 def getsign(url):
     m = hashlib.md5()
-    url=url+"&mpuffgvbvbttn3Rc"
     m.update(url.encode('utf-8'))
     return "&sign="+str(m.hexdigest())
 
@@ -33,7 +33,7 @@ def getunixtime():
 
 def getnewslist():
     unixtime=getunixtime()
-    url="app_key=10000&format=json&method=Article.Lists&timestamp="+unixtime+"&v=1.0"
+    url="app_key=10000&format=json&method=Article.Lists&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc"
     url=api+url+getsign(url)
     data = query(url)
     return data
@@ -46,8 +46,8 @@ def loadrealtime(nextsid):
 
 def getnewscontent(sid):
     unixtime=getunixtime()
-    url="app_key=10000&format=json&method=Article.NewsContent&sid="+str(sid)+"&timestamp="+unixtime+"&v=1.0"
-    print("url",url)
+    url="app_key=10000&format=json&method=Article.NewsContent&sid="+str(sid)+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc"
+#     print("url",url)
     url=api+url+getsign(url)
     #print(url)
     data = query(url)
@@ -55,7 +55,7 @@ def getnewscontent(sid):
 
 def getnewscomment(sid,commpage):
     unixtime=getunixtime()
-    url="app_key=10000&format=json&method=Article.Comment&page="+str(commpage)+"&sid="+str(sid)+"&timestamp="+unixtime+"&v=1.0"
+    url="app_key=10000&format=json&method=Article.Comment&page="+str(commpage)+"&sid="+str(sid)+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc"
     url=api+url+getsign(url)
     data = query(url)
     #print(data)
@@ -64,7 +64,7 @@ def getnewscomment(sid,commpage):
 
 def postcomment(sid,comment):
     unixtime=getunixtime()
-    url="app_key=10000&content="+comment+"&format=json&method=Article.DoCmt&op=publish&sid="+sid+"&timestamp="+unixtime+"&v=1.0"
+    url="app_key=10000&content="+comment+"&format=json&method=Article.DoCmt&op=publish&sid="+str(sid)+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc"
     url=api+url+getsign(url)
     #print(url)
     data = query(url)
@@ -73,7 +73,7 @@ def postcomment(sid,comment):
 
 def supportagainst(op,sid,tid):
     unixtime=getunixtime()
-    url="app_key=10000&format=json&method=Article.DoCmt&op="+op+"&sid="+str(sid)+"&tid="+str(tid)+"&timestamp="+unixtime+"&v=1.0"
+    url="app_key=10000&format=json&method=Article.DoCmt&op="+op+"&sid="+str(sid)+"&tid="+str(tid)+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc"
     url=api+url+getsign(url)
     #pyotherside.send(url)
     #print(url)
@@ -82,7 +82,10 @@ def supportagainst(op,sid,tid):
 
 def queryNext(start_sid,topicid):
     unixtime=getunixtime()
-    url="app_key=10000&format=json&method=Article.Lists&start_sid="+str(start_sid)+"&timestamp="+unixtime+"&topicid="+str(topicid)+"&v=1.0&mpuffgvbvbttn3Rc"
+    #app_key=10000&format=json&method=Article.Lists&start_sid=" +
+                #startSid + "&timestamp=" + timestamp +
+                #"&topicid=" + topicId + "&v=1.0&mpuffgvbvbttn3Rc"
+    url="app_key=10000&format=json&method=Article.Lists&start_sid="+str(start_sid)+"&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc"
     url=api+url+getsign(url)
     data = query(url)
     return data
@@ -90,7 +93,17 @@ def queryNext(start_sid,topicid):
 
 def queryBefore(end_sid,topicid):
     unixtime=getunixtime()
-    url="app_key=10000&end_sid="+str(end_sid)+"&format=json&method=Article.Lists&timestamp="+unixtime+"&topicid="+str(topicid)+"&v=1.0&mpuffgvbvbttn3Rc"
+    #app_key=10000&format=json&method=Article.Lists&start_sid=" +
+                #startSid + "&timestamp=" + timestamp +
+                #"&topicid=" + topicId + "&v=1.0&mpuffgvbvbttn3Rc"
+    url="app_key=10000&end_sid="+str(end_sid)+"&format=json&method=Article.Lists&timestamp="+unixtime+"&v=1.0&mpuffgvbvbttn3Rc"
     url=api+url+getsign(url)
     data = query(url)
     return data
+
+if __name__ == "__main__":
+#     pprint(json.loads(getnewslist().decode()))
+#     pprint(postcomment(589003,"MY comments"))
+#     print(json.loads(getnewscomment(589003,1).decode()))
+#     pprint(json.loads(queryBefore(588995,243).decode()))
+    print(json.loads(queryBefore(589081,318).decode()).get("result"))
