@@ -79,3 +79,18 @@ def supportagainst(op,sid,tid):
     #print(url)
     data = query(url)
     return data
+
+def queryNext(start_sid,topicid):
+    unixtime=getunixtime()
+    url="app_key=10000&format=json&method=Article.Lists&start_sid="+str(start_sid)+"&timestamp="+unixtime+"&topicid="+str(topicid)+"&v=1.0&mpuffgvbvbttn3Rc"
+    url=api+url+getsign(url)
+    data = query(url)
+    return data
+
+
+def queryBefore(end_sid,topicid):
+    unixtime=getunixtime()
+    url="app_key=10000&end_sid="+str(end_sid)+"&format=json&method=Article.Lists&timestamp="+unixtime+"&topicid="+str(topicid)+"&v=1.0&mpuffgvbvbttn3Rc"
+    url=api+url+getsign(url)
+    data = query(url)
+    return data

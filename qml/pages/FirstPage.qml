@@ -128,12 +128,12 @@ Page{
         id:repy
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('../py'));
-            repy.importModule('mypy', function () {
+            repy.importModule('cnbeta', function () {
              });
         }
         function querytime(nextsid){
              progress.running = true;
-            repy.call('mypy.queryreal',[nextsid],function(result){
+            repy.call('cnbeta.queryNext',[nextsid],function(result){
             })
         }
 
