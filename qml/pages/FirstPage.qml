@@ -58,17 +58,17 @@ Page{
     }
 
     function appModel(result){
-        for ( var i in result.result.list){
+        for ( var i in result.result){
             newlistModel.append({
-                                    "id":result.result.list[i].sid,
-                                    "article_id":result.result.list[i].sid,
-                                    "title":result.result.list[i].title,
-                                    "date":result.result.list[i].inputtime,
-                                    "intro":result.result.list[i].hometext,
-                                    "comments":result.result.list[i].comments,//评论数
-                                    "counter":result.result.list[i].counter,//浏览数
-                                    "score":result.result.list[i].score,//文章分
-                                    "score_story":result.result.list[i].score_story//事件分
+                                    "id":result.result[i].sid,
+                                    "article_id":result.result[i].sid,
+                                    "title":result.result[i].title,
+                                    "date":result.result[i].pubtime,
+                                    "intro":result.result[i].summary,
+                                    "comments":result.result[i].comments,//评论数
+                                    "counter":result.result[i].counter,//浏览数
+                                    "score":result.result[i].score,//文章分
+                                    "score_story":result.result[i].score_story//事件分
                                 });
 
                        }
@@ -80,7 +80,7 @@ Page{
                                     "id":querydata.result[i].sid,
                                     "article_id":querydata.result[i].sid,
                                     "title":querydata.result[i].title,
-                                    "date":querydata.result[i].inputtime,
+                                    "date":querydata.result[i].pubtime,
                                     "intro":querydata.result[i].hometext,
                                     "comments":querydata.result[i].comments,//评论数
                                     "counter":querydata.result[i].counter,//浏览数
@@ -94,7 +94,7 @@ Page{
         id:py
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('../py'));
-            py.importModule('mypy', function () {
+            py.importModule('cnbeta', function () {
                 py.loadNews(page);
              });
 
@@ -102,7 +102,7 @@ Page{
         function loadNews(page){
             progress.running = true;
             //timer.start()
-            py.call('mypy.getNews',[page],function(result){
+            py.call('cnbeta.getnewslist',[page],function(result){
                 //console.log("resutl:"+result);
                 result= eval('(' + result + ')');
                 appModel(result);
@@ -166,19 +166,19 @@ Page{
 //                text: openimg == 1 ? "切换到省流量模式" : "切换到有图模式"
 //                onClicked: updateSetting()
 //            }
-            MenuItem{
-                text:"加载最新"
-                enabled: page == 1
-                onClicked: {
-                    console.log(newlistModel.count)
-                    if(newlistModel.count > 0){
-                        var nextsid=newlistModel.get(0).article_id;
-                        repy.querytime(nextsid);
-                    }else{
-                        py.loadNews(page)
-                    }
-                }
-            }
+            // MenuItem{
+            //     text:"加载最新"
+            //     enabled: page == 1
+            //     onClicked: {
+            //         console.log(newlistModel.count)
+            //         if(newlistModel.count > 0){
+            //             var nextsid=newlistModel.get(0).article_id;
+            //             repy.querytime(nextsid);
+            //         }else{
+            //             py.loadNews(page)
+            //         }
+            //     }
+            // }
         }
         PushUpMenu{
             id:pushUp

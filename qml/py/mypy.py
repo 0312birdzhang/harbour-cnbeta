@@ -28,7 +28,7 @@ def queryreal(nextsid):
     #return data
 
 def getNews(page):
-    url="http://www.cnbeta.com/more?type=all&page="+str(page)
+    url="http://www.cnbeta.com/home/more?type=all&page="+str(page)
     data=query(url)
     #print(data)
     return data
