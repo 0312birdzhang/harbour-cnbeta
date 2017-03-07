@@ -30,7 +30,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import io.thp.pyotherside 1.3
+import io.thp.pyotherside 1.0
 import "pages"
 import "pages/Setting.js" as Settings
 import org.nemomobile.notifications 1.0
