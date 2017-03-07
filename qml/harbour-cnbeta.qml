@@ -46,13 +46,13 @@ ApplicationWindow
         id:wlan
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('./py'));
-            wlan.importModule('mypy', function () {
+            wlan.importModule('cnbeta', function () {
                 //wlan.get_ip_address("wlan0");
              });
 
         }
         function get_ip_address(){
-            wlan.call('mypy.get_ip_address',[],function(result){
+            wlan.call('cnbeta.get_ip_address',[],function(result){
                 if(result){
                     iswifi = true
                 }else{

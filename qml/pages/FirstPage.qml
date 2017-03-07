@@ -144,42 +144,21 @@ Page{
                 progress.running = false;
             });
         }
-//        function netOkorFail(){
-//            py.call('mypy.netOkorFail',[],function(result){
-//                    if(!result){
-//                        return "未连接到互联网！"
-//                    }
-//                })
-//        }
+        function getLatest(){
+            progress.running = true;
+            py.call('cnbeta.queryNext',[start_sid,start_topic],function(res){
+                var result= eval('(' + res + ')');
+                insertModel(result);
+                progress.running = false;
+                showMsg(querydata.result.length +" 条新资讯")
+            });
+        }
 
         onError: {
             //showMsg("加载失败，请刷新重试！")
             progress.visible=false;
         }
 
-    }
-    Python{
-        id:repy
-        Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('../py'));
-            repy.importModule('cnbeta', function () {
-             });
-        }
-        function querytime(nextsid){
-             progress.running = true;
-            repy.call('cnbeta.queryNext',[nextsid],function(result){
-            })
-        }
-
-        onReceived: {
-            var querydata = eval('(' + data + ')');
-            var befcount = newlistModel.count;
-            insertModel(querydata);
-            //newlistModel = newlistModel.revert();
-            progress.running = false
-            var aftcount = newlistModel.count;
-            showMsg((parseInt(aftcount)-parseInt(befcount))+" 条新资讯")
-        }
     }
 
     SilicaListView {
@@ -200,19 +179,19 @@ Page{
 //                text: openimg == 1 ? "切换到省流量模式" : "切换到有图模式"
 //                onClicked: updateSetting()
 //            }
-//             MenuItem{
-//                 text:"加载最新"
-//                 enabled: page == 1
-//                 onClicked: {
-//                     console.log(newlistModel.count)
-//                     if(newlistModel.count > 0){
-//                         var nextsid=newlistModel.get(0).article_id;
-//                         repy.querytime(nextsid);
-//                     }else{
-//                         py.loadNews(page)
-//                     }
-//                 }
-//             }
+            MenuItem{
+                text:"加载最新"
+                enabled: page == 1
+                onClicked: {
+                    // console.log(newlistModel.count)
+                    if(newlistModel.count > 0){
+                        var nextsid=newlistModel.get(0).article_id;
+                        repy.querytime(nextsid);
+                    }else{
+                        py.loadNews(page)
+                    }
+                }
+            }
         }
         PushUpMenu{
             id:pushUp
