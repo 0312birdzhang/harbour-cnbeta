@@ -53,9 +53,7 @@ Page{
     ListModel {
         id:newlistModel
     }
-    ListModel{
-        id:tmpModel
-    }
+
 
     function clearModel(){
         newlistModel.clear();
@@ -82,7 +80,10 @@ Page{
 
                        }
     }
-    function insertModel(querydata){
+    function insertModel(result){
+        if(result.result.length == 0){
+            return;
+        }
         start_sid = result.result[0].sid;
         end_sid = result.result[result.result.length-1].sid;
         for ( var i in querydata.result){
@@ -124,7 +125,6 @@ Page{
 
         function getPre(){
             progress.running = true;
-            console.log("getPre:"+end_sid+" "+end_topic)
             py.call('cnbeta.queryBefore',[end_sid,end_topic],function(res){
                 var result= eval('(' + res + ')');
                 clearModel();
@@ -135,7 +135,6 @@ Page{
         }
         function getNext(){
             progress.running = true;
-
             py.call('cnbeta.queryNext',[start_sid,start_topic],function(res){
                 var result= eval('(' + res + ')');
                 clearModel();
@@ -148,14 +147,14 @@ Page{
             progress.running = true;
             py.call('cnbeta.queryNext',[start_sid,start_topic],function(res){
                 var result= eval('(' + res + ')');
+                showMsg(result.result.length +" 条新资讯")
                 insertModel(result);
                 progress.running = false;
-                showMsg(querydata.result.length +" 条新资讯")
             });
         }
 
         onError: {
-            //showMsg("加载失败，请刷新重试！")
+            showMsg("加载失败，请刷新重试！")
             progress.visible=false;
         }
 
@@ -185,10 +184,11 @@ Page{
                 onClicked: {
                     // console.log(newlistModel.count)
                     if(newlistModel.count > 0){
-                        var nextsid=newlistModel.get(0).article_id;
-                        repy.querytime(nextsid);
+                        var nextsid=newlistModel.get(0).id;
+//                        console.log("nextsid:"+ nextsid);
+                        py.getLatest(nextsid);
                     }else{
-                        py.loadNews(page)
+                        py.loadNews();
                     }
                 }
             }
