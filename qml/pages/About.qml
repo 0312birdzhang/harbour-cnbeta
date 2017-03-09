@@ -58,7 +58,7 @@ Page {
             }
 
             Label {
-                text:  "Cnbeta 0.7.4"
+                text:  "Cnbeta 0.8.2"
                 horizontalAlignment: Text.Center
                 width: parent.width - Theme.paddingLarge * 2
                 anchors.horizontalCenter: parent.horizontalCenter
