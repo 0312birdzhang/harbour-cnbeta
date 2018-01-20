@@ -28,19 +28,11 @@ OTHER_FILES += qml/harbour-cnbeta.qml \
     harbour-cnbeta.desktop \
     qml/pages/API.js \
     qml/pages/NewsDetail.qml \
-    qml/pages/Progress.qml \
     qml/pages/About.qml \
-    qml/pages/Setting.js \
-    qml/cover/icon.png \
-# to disable building translations every time, comment out the
-# following CONFIG line
-CONFIG += sailfishapp_i18n \
-    qml/pages/md5.js \
     qml/py/__init__.py \
-    qml/py/basedir.py \
-    qml/py/image.py \
     qml/py/cnbeta.py \
     qml/pages/CommentsPage.qml
-TRANSLATIONS += translations/harbour-cnbeta-de.ts
+
+
 
 

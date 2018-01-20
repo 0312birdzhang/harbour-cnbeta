@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "Setting.js" as Settings
-import io.thp.pyotherside 1.3
+import io.thp.pyotherside 1.4
 
 Page{
     id:commtenPage
@@ -13,16 +12,11 @@ Page{
         id:commentModel
     }
 
-    Progress{
-        id:progress
-        running: !PageStatus.Active
-        parent:commtenPage
-        anchors.centerIn: parent
-    }
     function clearModel(){
         commentModel.clear();
 
     }
+
     Python{
         id:commentspy
         Component.onCompleted: {
@@ -35,7 +29,7 @@ Page{
 
 
        function loadComment(sid,commpage){
-            progress.running = true;
+           loading = true;
            commentspy.call('cnbeta.getnewscomment',[sid,commpage],function(result){
                 result= eval('(' + result + ')');
                if(result.result.length == 0){
@@ -55,10 +49,9 @@ Page{
                }
 
            })
-           progress.running = false;
+           loading = false;
        }
        function supportagainst(op,sid,tid){
-
            commentspy.call('cnbeta.supportagainst',[op,sid,tid],function(result){
                 result= eval('(' + result + ')');
                 showMsg(result.result)
@@ -76,7 +69,7 @@ Page{
     SilicaListView{
         id:view
         header: PageHeader{
-            title: "Comments"
+            title: "评论"
         }
         anchors.fill: parent
         model:commentModel
@@ -174,7 +167,7 @@ Page{
 
             Item {
                 id: loadMoreID
-                visible: !progress.running
+                visible: !loading
                 anchors {
                     left: parent.left;
                     right: parent.right;

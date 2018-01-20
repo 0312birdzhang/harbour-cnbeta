@@ -46,36 +46,32 @@ Page {
             spacing: Theme.paddingSmall
 
             PageHeader {
-                //: headline of application information page
-                title: qsTr("关于")
+                title: "关于"
             }
 
             Image {
-                source: "../cover/icon.png"
+                source: "image://theme/harbour-cnbeta"
                 width: parent.width
                 fillMode: Image.PreserveAspectFit
                 horizontalAlignment: Image.AlignHCenter
             }
 
             Label {
-                text:  "Cnbeta 0.8.2"
+                text:  "Cnbeta 1.0.0"
                 horizontalAlignment: Text.Center
                 width: parent.width - Theme.paddingLarge * 2
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
             SectionHeader {
-                //: headline for application description
                 text: "描述"
             }
 
             Label {
-                //: application description
                 textFormat: Text.RichText;
                 text: '<style>a:link { color: ' + Theme.highlightColor + '; }</style>此程序使用了<a href="http://cnbeta1.com/">http://cnbeta1.com/</a>'+
                       '的API,以及OSC <a href="https://git.oschina.net/ywwxhz/cnBeta-reader">cnBeta-reader</a>项目<br/>'+
                       "感谢梦梦提供的桌面图标.<br/> "+
-                      "感谢coderus的黑科技方法绕过harbour校验<br/>"+
                       "如果你对本软件有什么好的想法，可以邮件联系我 Email:0312birdzhang@gmail.com<br/>"
                 width: parent.width - Theme.paddingLarge * 2
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -84,19 +80,16 @@ Page {
             }
 
             SectionHeader {
-                //: headline for application licensing information
                 text: "许可证"
             }
 
             Label {
-                //: Copyright and license information
                 text: qsTr("Copyright © by") + " 0312birzhang\n" + qsTr("License") + ": GPL v2"
                 width: parent.width - Theme.paddingLarge * 2
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pixelSize: Theme.fontSizeSmall
             }
             SectionHeader {
-                //: headline for application licensing information
                 text: "设置"
             }
             Item{
@@ -104,8 +97,8 @@ Page {
                 height:imgswitch.height
                 TextSwitch {
                     id: imgswitch
-                    checked: openimg == 1
-                    onClicked: updateSetting()
+                    checked: settings.openimg
+                    onClicked: settings.openimg = !settings.openimg
                     description:"Wifi下默认显示图片"
                     text: "显示图片"
                 }
@@ -113,7 +106,6 @@ Page {
             }
 
             SectionHeader {
-                //: headline for application project information
                 text: "项目源码"
                 font.pixelSize: Theme.fontSizeSmall
             }
@@ -130,28 +122,30 @@ Page {
                 }
             }
             SectionHeader {
-                //: headline for application licensing information
                 text: "改动日志"
             }
             Label {
-                text:"version 0.8<br/>"+
-                     "1.更新API"+
-                     "2.去掉无用文件<br/>"+
-                    "version 0.7<br/>"+
-                     "1.调整消息通知<br/>"+
-                     "2.Wifi下默认显示图片<br/>"+
-                    "version 0.6<br/>"+
-                     "1.许多改动...这里要感谢蝉曦么么哒<br/>"+
-                     "2.评论的支持跟反对可能是API的问题，即使提交成功也不工作<br/>"+
-                    "version 0.5<br/>"+
-                     "1.更改首页加载消息的api，可以分页查看旧消息<br/>"+
-                     "2.文章中的链接点击可以用自带浏览器打开<br/>"+
-                    "version 0.4<br/>
+                text:"version 1.0<br/>
+                        1.移除一些无用的代码<br/>
+                        2.修复屏幕旋转后出现重叠的bug<br/>
+                     version 0.8<br/>
+                        1.更新API<br/>
+                        2.去掉无用文件<br/>
+                     version 0.7<br/>
+                        1.调整消息通知<br/>
+                        2.Wifi下默认显示图片<br/>
+                     version 0.6<br/>
+                        1.许多改动...这里要感谢蝉曦么么哒<br/>
+                        2.评论的支持跟反对可能是API的问题，即使提交成功也不工作<br/>
+                     version 0.5<br/>
+                        1.更改首页加载消息的api，可以分页查看旧消息<br/>
+                        2.文章中的链接点击可以用自带浏览器打开<br/>
+                     version 0.4<br/>
                         1.将设置有图无图入库，不必每次都要设置<br/>
                         2.去掉上滑菜单，添加刷新下拉菜单<br/>
-                        3.微调界面<br/>"+
-                        "version 0.3<br/>"+
-                        "匹配其他设备分辨率"
+                        3.微调界面<br/>
+                     version 0.3<br/>
+                        匹配其他设备分辨率"
                 width: parent.width - Theme.paddingLarge * 2
                 wrapMode: Text.WordWrap
                 anchors.horizontalCenter: parent.horizontalCenter

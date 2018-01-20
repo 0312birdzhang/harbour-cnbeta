@@ -102,29 +102,6 @@ def queryBefore(end_sid,topicid):
     return data
 
 
-def netOkorFail():
-    fnull = open(os.devnull, 'w')
-    result=subprocess.call('ping 223.5.5.5',shell=True,stdout=fnull,stderr=fnull)
-    if result:
-        return False
-    else:
-        return True
-    fnull.close()
-
-def get_ip_address(ifname=b"wlan0"):
-    import socket
-    import fcntl
-    import struct
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        return socket.inet_ntoa(fcntl.ioctl(
-            s.fileno(),
-            0x8915, # SIOCGIFADDR
-            struct.pack(b'256s', ifname[:15])
-        )[20:24])
-    except:
-        #return "You may not connected to wifi"
-        return False
 if __name__ == "__main__":
 #     pprint(json.loads(getnewslist().decode()))
 #     pprint(postcomment(589003,"MY comments"))

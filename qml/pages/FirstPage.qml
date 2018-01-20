@@ -44,22 +44,14 @@ Page{
     
     allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
 
-    Progress{
-        id:progress
-        parent:showNews
-        anchors.centerIn: parent
-    }
-
     ListModel {
         id:newlistModel
     }
-
 
     function clearModel(){
         newlistModel.clear();
 
     }
-
     function appModel(result){
         start_sid = result.result[0].sid;
         start_topic = result.result[0].topic;
@@ -111,51 +103,51 @@ Page{
 
         }
         function loadNews(){
-            progress.running = true;
+            loading = true;
             //timer.start()
             py.call('cnbeta.getnewslist',[],function(res){
                 //console.log("resutl:"+result);
                 var result= eval('(' + res + ')');
                 appModel(result);
-                progress.running = false;
+                loading = false;
                 // timer.stop()
             });
         }
 
 
         function getPre(){
-            progress.running = true;
+            loading = true;
             py.call('cnbeta.queryBefore',[end_sid,end_topic],function(res){
                 var result= eval('(' + res + ')');
                 clearModel();
                 appModel(result);
                 view.scrollToTop();
-                progress.running = false;
+                loading = false;
             });
         }
         function getNext(){
-            progress.running = true;
+            loading = true;
             py.call('cnbeta.queryNext',[start_sid,start_topic],function(res){
                 var result= eval('(' + res + ')');
                 clearModel();
                 appModel(result);
                 view.scrollToTop();
-                progress.running = false;
+                loading = false;
             });
         }
         function getLatest(){
-            progress.running = true;
+            loading = true;
             py.call('cnbeta.queryNext',[start_sid,start_topic],function(res){
                 var result= eval('(' + res + ')');
                 showMsg(result.result.length +" 条新资讯")
                 insertModel(result);
-                progress.running = false;
+                loading = false;
             });
         }
 
         onError: {
+            loading = false;
             showMsg("加载失败，请刷新重试！")
-            progress.visible=false;
         }
 
     }
@@ -171,13 +163,8 @@ Page{
 
             MenuItem{
                 text:"关于&设置"
-
                 onClicked:pageStack.push(Qt.resolvedUrl("About.qml"));
             }
-//            MenuItem{
-//                text: openimg == 1 ? "切换到省流量模式" : "切换到有图模式"
-//                onClicked: updateSetting()
-//            }
             MenuItem{
                 text:"加载最新"
                 enabled: page == 1
@@ -185,7 +172,6 @@ Page{
                     // console.log(newlistModel.count)
                     if(newlistModel.count > 0){
                         var nextsid=newlistModel.get(0).id;
-//                        console.log("nextsid:"+ nextsid);
                         py.getLatest(nextsid);
                     }else{
                         py.loadNews();
@@ -294,7 +280,7 @@ Page{
 
             Item {
                 id: loadMoreID
-                visible: !progress.running
+                visible: loading
                 anchors {
                     left: parent.left;
                     right: parent.right;
@@ -338,12 +324,4 @@ Page{
         }
 
     }
-
-
-
-//    Timer{
-//        id:timer
-//        interval: 1500; running: true; repeat: false
-//        onTriggered: view.count = 0
-//    }
 }

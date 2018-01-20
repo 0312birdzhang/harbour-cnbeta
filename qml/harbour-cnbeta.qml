@@ -30,65 +30,98 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import io.thp.pyotherside 1.0
+import QtSystemInfo 5.0
+import io.thp.pyotherside 1.4
 import "pages"
-import "pages/Setting.js" as Settings
-import org.nemomobile.notifications 1.0
+import Nemo.Notifications 1.0
+import Nemo.Configuration 1.0
+
 ApplicationWindow
 {
 
     id:appwindow
-    property int openimg:-1
-    property bool iswifi:false
+    property int networkmode: networkinfo.currentNetworkMode
+    property bool loading: false
+
     allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
-    //wlan下自动打开图片
-    Python{
-        id:wlan
-        Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('./py'));
-            wlan.importModule('cnbeta', function () {
-                //wlan.get_ip_address("wlan0");
-             });
 
-        }
-        function get_ip_address(){
-            wlan.call('cnbeta.get_ip_address',[],function(result){
-                if(result){
-                    iswifi = true
-                }else{
-                    iswifi = false
-                }
+    NetworkInfo {
+        id: networkinfo
+    }
 
-            });
-        }
+    SignalCenter{
+        id: signalCenter
+    }
+
+    onNetworkmodeChanged: {
+//        console.log("networkmode:"+networkmode);
+        var netModeMap = {
+                 0: "Unknown",
+                 1: "Gsm",
+                 2: "Cdma",
+                 3: "Wcdma",
+                 4: "Wlan",
+                 5: "Ethernet",
+                 6: "Bluetooth",
+                 7: "Wimax",
+                 8: "Lte",
+                 9: "Tdscdma"
+             };
 
     }
 
-    Component.onCompleted: {
-        Settings.initialize();
-        openimg=Settings.getSetting();
-        wlan.get_ip_address()
+    ConfigurationGroup {
+        id: settings
+        path: "/apps/harbour-cnbeta"
+        property bool openimg: false
     }
+
+    BusyIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        running: loading
+        size: BusyIndicatorSize.Large
+    }
+
+    Timer{
+        id:processingtimer;
+        interval: 20000;
+        onTriggered: signalCenter.loadFailed("请求超时");
+    }
+
+    Connections{
+        target: signalCenter;
+        onLoadStarted:{
+            appwindow.loading=true;
+            processingtimer.restart();
+        }
+        onLoadFinished:{
+            appwindow.loading=false;
+            processingtimer.stop();
+        }
+        onLoadFailed:{
+            appwindow.loading=false;
+            processingtimer.stop();
+            signalCenter.showMessage(errorstring);
+        }
+    }
+
+
     Notification{
         id:notification
         appName: "CnBeta"
     }
-    function updateSetting(){
-        openimg=-1*openimg;
-        Settings.setPic(openimg);
-       //重置图片显示
-        //openimg=iswifi?1:-1
-    }
+
     function formathtml(html){
-       html=html.replace(/<a href=/g,"<a style='color:"+Theme.highlightColor+"' target='_blank' href=");
-       html=html.replace(/<a class=/g,"<a style='color:"+Theme.highlightColor+"' target='_blank' class=");
-       html=html.replace(/<p>/g,"<p style='text-indent:24px'>");
-       html=html.replace(/<p style='text-indent:24px'><img/g,"<p><img");
-       html=html.replace(/<p style='text-indent:24px'><a [^<>]*href=\"([^<>"]*)\".*?><img/g,"<p><a href='$1'><img");
-       html=html.replace(/<img src=\"([^<>"]*)\".*?>/g,"<a href='$1.showimg'><img src=\"$1\" width="+(Screen.width-Theme.paddingMedium*2)+"/></a>");//$&</a>");
-       html=html.replace(/<img src/g,"<img src='default.jpg' x-src");
-//        html=html.replace(/<p><img /g,"<p style='text-indent:-10px'><img width="+Screen.width+" ");
-//        html=html.replace(/<img /g,"<img style='max-width:"+Screen.width+";margin-left:-10px;' ");
+        html=html.replace(/<a href=/g,"<a style='color:"+Theme.highlightColor+"' target='_blank' href=");
+        html=html.replace(/<a class=/g,"<a style='color:"+Theme.highlightColor+"' target='_blank' class=");
+        html=html.replace(/<p>/g,"<p style='text-indent:24px'>");
+        html=html.replace(/<p style='text-indent:24px'><img/g,"<p><img");
+        html=html.replace(/<p style='text-indent:24px'><a [^<>]*href=\"([^<>"]*)\".*?><img/g,"<p><a href='$1'><img");
+        html=html.replace(/<img src=\"([^<>"]*)\".*?>/g,"<a href='$1.showimg'><img src=\"$1\" width="+(Screen.width-Theme.paddingMedium*2)+"/></a>");//$&</a>");
+        html=html.replace(/<img src/g,"<img src='default.jpg' x-src");
+        //        html=html.replace(/<p><img /g,"<p style='text-indent:-10px'><img width="+Screen.width+" ");
+        //        html=html.replace(/<img /g,"<img style='max-width:"+Screen.width+";margin-left:-10px;' ");
 
         return html;
     }
@@ -105,21 +138,14 @@ ApplicationWindow
 
     cover: CoverBackground {
         CoverPlaceholder{
-            icon.source: "cover/icon.png"
+            icon.source: "image://theme/harbour-cnbeta"
             text:"Cnbeta"
         }
-//        CoverActionList {
-//            id: coverAction
-
-//            CoverAction {
-//                iconSource: "image://theme/icon-cover-refresh"
-//                onTriggered:{
-//                    appwindow.activate();
-//                }
-//            }
-//        }
     }
 
+    Component.onCompleted: {
+
+    }
 
 }
 
