@@ -30,7 +30,6 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtSystemInfo 5.0
 import io.thp.pyotherside 1.4
 import "pages"
 import Nemo.Notifications 1.0
@@ -40,40 +39,13 @@ ApplicationWindow
 {
 
     id:appwindow
-    property int networkmode: networkinfo.currentNetworkMode
     property bool loading: false
 
     allowedOrientations: Orientation.Landscape | Orientation.Portrait | Orientation.LandscapeInverted
 
-    NetworkInfo {
-        id: networkinfo
-    }
 
     SignalCenter{
         id: signalCenter
-    }
-
-    onNetworkmodeChanged: {
-//        console.log("networkmode:"+networkmode);
-        var netModeMap = {
-                 0: "Unknown",
-                 1: "Gsm",
-                 2: "Cdma",
-                 3: "Wcdma",
-                 4: "Wlan",
-                 5: "Ethernet",
-                 6: "Bluetooth",
-                 7: "Wimax",
-                 8: "Lte",
-                 9: "Tdscdma"
-             };
-
-    }
-
-    ConfigurationGroup {
-        id: settings
-        path: "/apps/harbour-cnbeta"
-        property bool openimg: false
     }
 
     BusyIndicator {
@@ -119,7 +91,7 @@ ApplicationWindow
         html=html.replace(/<p style='text-indent:24px'><img/g,"<p><img");
         html=html.replace(/<p style='text-indent:24px'><a [^<>]*href=\"([^<>"]*)\".*?><img/g,"<p><a href='$1'><img");
         html=html.replace(/<img src=\"([^<>"]*)\".*?>/g,"<a href='$1.showimg'><img src=\"$1\" width="+(Screen.width-Theme.paddingMedium*2)+"/></a>");//$&</a>");
-        html=html.replace(/<img src/g,"<img src='default.jpg' x-src");
+//        html=html.replace(/<img src/g,"<img src='default.jpg' x-src");
         //        html=html.replace(/<p><img /g,"<p style='text-indent:-10px'><img width="+Screen.width+" ");
         //        html=html.replace(/<img /g,"<img style='max-width:"+Screen.width+";margin-left:-10px;' ");
 

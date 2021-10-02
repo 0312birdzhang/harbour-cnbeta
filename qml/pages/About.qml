@@ -89,21 +89,7 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pixelSize: Theme.fontSizeSmall
             }
-            SectionHeader {
-                text: "设置"
-            }
-            Item{
-                width: parent.width
-                height:imgswitch.height
-                TextSwitch {
-                    id: imgswitch
-                    checked: settings.openimg
-                    onClicked: settings.openimg = !settings.openimg
-                    description:"Wifi下默认显示图片"
-                    text: "显示图片"
-                }
 
-            }
 
             SectionHeader {
                 text: "项目源码"

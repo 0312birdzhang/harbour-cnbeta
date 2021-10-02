@@ -165,8 +165,7 @@ Page{
                 id:contentbody
                 opacity: 0.8
                 textFormat: Text.RichText //openimg == 1 ? Text.RichText : Text.StyledText;
-                text:(networkmode == 4||settings.openimg) ? formathtml(bodytext).replace(/src='default.jpg' x-src/g,"src") :
-                                    formathtml(bodytext);
+                text: formathtml(bodytext);
                 font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.WordWrap
                 linkColor:Theme.primaryColor

@@ -8,3 +8,7 @@ Name=Cnbeta
 # your app name in German locale (de)
 Name[de]=Cnbeta
 
+[X-Sailjail]
+OrganizationName=club.sailfishos
+ApplicationName=cnbeta
+Permissions=Pictures;Internet;Notifications;
